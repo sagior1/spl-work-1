@@ -28,6 +28,9 @@ class WareHouse {
         void addCustomer(Customer* newCustomer);
         void step();
         void pendingOrdersStep();
+        void step2();
+        void isExist();
+
     private:
         bool isOpen;
         vector<BaseAction*> actionsLog;
