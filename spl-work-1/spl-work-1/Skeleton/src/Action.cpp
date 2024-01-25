@@ -23,6 +23,9 @@ void BaseAction:: error(string errorMSG){
 string BaseAction:: getErrorMsg() const{
     return errorMsg;
 }
+void BaseAction:: complete(){
+    status = ActionStatus::COMPLETED;
+}
 
 void AddCustomer::act(WareHouse &wareHouse) {
     int idnew = wareHouse.getcustomerCounter() + 1;
