@@ -8,7 +8,7 @@
 class BaseAction;
 class Volunteer;
 
-// Warehouse responsible for Volunteers, Customers Actions, and Orders.
+//Warehouse responsible for Volunteers, Customers Actions, and Orders.
 
 
 class WareHouse {
@@ -16,21 +16,23 @@ class WareHouse {
     public:
         WareHouse(const string &configFilePath);
         void start();
-        void addOrder(Order* order);
-        void addAction(BaseAction* action);
-        Customer &getCustomer(int customerId) const;
-        Volunteer &getVolunteer(int volunteerId) const;
-        Order &getOrder(int orderId) const;
-        const vector<BaseAction*> &getActions() const;
-        void close();
-        void open();
-        int &getcustomerCounter() const;
-        void addCustomer(Customer* newCustomer);
+        void addOrder(Order* order);//done
+        void addAction(BaseAction* action);//done
+        Customer &getCustomer(int customerId) const;//done
+        Volunteer &getVolunteer(int volunteerId) const;//done
+        Order &getOrder(int orderId) const;//done
+        const vector<BaseAction*> &getActions() const;//done
+        void close();//done
+        void open();//done
+        int &getcustomerCounter() const;//done?
+        void addCustomer(Customer* newCustomer);//done
+        void addVolunteer(Volunteer* newVolunteer);//done
+        void deleteVolunteer(int volunteerID);
+        int getVolunteerCounter() const;
         void step();
-        void pendingOrdersStep();
+        void pendingOrdersStep();//done
         void step2();
         void isExist();
-
     private:
         bool isOpen;
         vector<BaseAction*> actionsLog;
