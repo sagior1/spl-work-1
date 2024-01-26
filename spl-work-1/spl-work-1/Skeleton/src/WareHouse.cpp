@@ -13,6 +13,20 @@
 #include<vector> 
 using namespace std;
 
+WareHouse::~WareHouse() {
+    // Delete all dynamically allocated Customer objects
+    for (Customer* customer : customers) {
+        delete customer;
+    }
+    customers.clear();
+    // Delete all dynamically allocated Volunteer objects
+    for (Volunteer* volunteer : volunteers) {
+        delete volunteer;
+    }
+    volunteers.clear();
+}
+
+
 void WareHouse:: start(){//i dont know what is needed here
     open();
     cout<<"Warehouse is open!";
@@ -28,6 +42,19 @@ void WareHouse:: addAction(BaseAction* action){
 void WareHouse:: addCustomer(Customer* newCustomer){
     customers.push_back(newCustomer);
     customerCounter ++;
+}
+void WareHouse:: addVolunteer(Volunteer* newVolunteer){
+    volunteers.push_back(newVolunteer);
+    volunteerCounter++;
+}
+void WareHouse:: deleteVolunteer(int vID){
+    for (auto it = volunteers.begin(); it != volunteers.end(); ++it) {
+        if ((*it)->getId() == vID) {
+            delete *it; // Delete the dynamically allocated Volunteer
+            volunteers.erase(it); // Remove the pointer from the vector
+            return; // Exit the function after deleting the volunteer
+        }
+    }
 }
 
 //getting a customer by ID
@@ -69,7 +96,18 @@ Order &WareHouse:: getOrder(int oID) const{//maybe need here another return if w
         }
     }
 }
-
+const vector<BaseAction*> &WareHouse:: getActions()const{
+    return actionsLog;
+}
+void WareHouse:: close(){
+    isOpen=false;
+}
+void WareHouse:: open(){
+    isOpen=true;
+}
+int &WareHouse:: getcustomerCounter() const{
+    return const_cast<int&>(customerCounter); //i dont know if this is right
+}
 
 void WareHouse:: step(){
     pendingOrdersStep();
