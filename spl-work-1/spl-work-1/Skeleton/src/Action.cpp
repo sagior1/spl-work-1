@@ -10,12 +10,8 @@ using namespace std;
 
 
 
-AddCustomer::AddCustomer(string customerName1, string customerType1, int distance1, int maxOrders1) 
-    : customerName(customerName1), 
-      customerType(customerType1 == "soldier" ? CustomerType::Soldier : CustomerType::Civilian), 
-      distance(distance1), 
-      maxOrders(maxOrders1) {}
 
+//BaseAction
 void BaseAction:: error(string errorMSG){
     errorMsg = errorMSG;
     status = ActionStatus::ERROR;
@@ -27,6 +23,13 @@ void BaseAction:: complete(){
     status = ActionStatus::COMPLETED;
 }
 
+//addCustomer
+
+AddCustomer::AddCustomer(string customerName1, string customerType1, int distance1, int maxOrders1) 
+    : customerName(customerName1), 
+      customerType(customerType1 == "soldier" ? CustomerType::Soldier : CustomerType::Civilian), 
+      distance(distance1), 
+      maxOrders(maxOrders1) {}
 void AddCustomer::act(WareHouse &wareHouse) {
     int idnew = wareHouse.getcustomerCounter() + 1;
     Customer* newCustomer;
