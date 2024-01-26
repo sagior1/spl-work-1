@@ -4,7 +4,9 @@
 #include <vector>
 
 Customer:: Customer(int id, const string &name, int locationDistance, int maxOrders)
-    : id(id), name(name), locationDistance(locationDistance), maxOrders(maxOrders) {}
+    : id(id), name(name), locationDistance(locationDistance), maxOrders(maxOrders) {
+
+    }
 
 const string &Customer:: getName() const{
     return name;
@@ -22,7 +24,7 @@ int Customer:: getNumOrders() const{
     return ordersId.size();
 }
 bool Customer:: canMakeOrder() const{
-    return (ordersId.size()<maxOrders);
+    return (static_cast<int>(ordersId.size())<maxOrders);
 }
  const vector<int> &Customer:: getOrdersIds() const{
     return ordersId;
@@ -35,15 +37,17 @@ bool Customer:: canMakeOrder() const{
     else
         return -1;
  }
- 
+ Customer::~Customer() {}
+
  //soldier customer
  SoldierCustomer:: SoldierCustomer(int id, const string &name, int locationDistance, int maxOrders)// i am intrested why the name is &name
     : Customer(id, name, locationDistance, maxOrders) {}
 
 
-SoldierCustomer* SoldierCustomer::clone() const {// i am not sure what is the right way to do the clone function
+SoldierCustomer* SoldierCustomer::clone() const {
     return new SoldierCustomer(*this);
 }
+ SoldierCustomer::~SoldierCustomer() {}
 
 //civilian customer
 CivilianCustomer:: CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders)// i am intrested why the name is &name
@@ -53,3 +57,4 @@ CivilianCustomer:: CivilianCustomer(int id, const string &name, int locationDist
 CivilianCustomer* CivilianCustomer::clone() const {// i am not sure what is the right way to do the clone function
     return new CivilianCustomer(*this);
 }
+ CivilianCustomer::~CivilianCustomer() {}
