@@ -53,7 +53,7 @@ void PrintCustomerStatus::act(WareHouse &wareHouse) {
     if(customerId>wareHouse.getcustomerCounter()){
         error("Customer Doesn't exist");
     }
-    else{
+    else{//maybe we can take the tostirng from customer or order
         Customer *currentCustomer = &wareHouse.getCustomer(customerId);
         cout <<"CustomerID:" <<currentCustomer->getId();
         vector<int> orderIDS = currentCustomer->getOrdersIds();
