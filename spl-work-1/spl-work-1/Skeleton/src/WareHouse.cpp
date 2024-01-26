@@ -43,10 +43,12 @@ void WareHouse:: addCustomer(Customer* newCustomer){
     customers.push_back(newCustomer);
     customerCounter ++;
 }
+
 void WareHouse:: addVolunteer(Volunteer* newVolunteer){
     volunteers.push_back(newVolunteer);
     volunteerCounter++;
 }
+
 void WareHouse:: deleteVolunteer(int vID){
     for (auto it = volunteers.begin(); it != volunteers.end(); ++it) {
         if ((*it)->getId() == vID) {
@@ -56,6 +58,7 @@ void WareHouse:: deleteVolunteer(int vID){
         }
     }
 }
+
 
 //getting a customer by ID
 Customer &WareHouse:: getCustomer(int cID) const{//maybe need here another return if we dont find the customer
