@@ -27,7 +27,7 @@ void WareHouse:: addAction(BaseAction* action){
 //adding a new customer to WareHouse
 void WareHouse:: addCustomer(Customer* newCustomer){
     customers.push_back(newCustomer);
-    customerCounter + 1;
+    customerCounter ++;
 }
 
 //getting a customer by ID
