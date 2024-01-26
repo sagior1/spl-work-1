@@ -1,11 +1,10 @@
-
 #include <string>
 #include <vector>
 #include "../include/Order.h"
 #include "../include/Customer.h"
 #include "../include/WareHouse.h"
-#include "WareHouse.h"
-#include "Volunteer.h"
+#include "../include/WareHouse.h"
+#include "../include/Volunteer.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -14,13 +13,24 @@
 #include<vector> 
 using namespace std;
 
+void WareHouse:: start(){//i dont know what is needed here
+    open();
+    cout<<"Warehouse is open!";
+}
+void WareHouse::addOrder(Order* order){
+    pendingOrders.push_back(order);
+}
+void WareHouse:: addAction(BaseAction* action){
+    actionsLog.push_back(action);
+}
+
 //adding a new customer to WareHouse
 void WareHouse:: addCustomer(Customer* newCustomer){
     customers.push_back(newCustomer);
     customerCounter + 1;
 }
 
-//geting a customer by ID
+//getting a customer by ID
 Customer& WareHouse:: getCustomer(int cID) const{
     for (auto &customer : customers) {
         if (customer->getId() == cID) {
@@ -34,13 +44,31 @@ void WareHouse:: step(){
     //processOrdersStep();
 }
 
+void WareHouse:: pendingOrdersStep(){
+    for (Order *currOrder: pendingOrders)
+    {
+        for(Volunteer *currVol: volunteers){
+            if(currVol->canTakeOrder(*currOrder)){
+                currVol->acceptOrder(*currOrder);
+                if(currOrder->getStatus()==OrderStatus::PENDING){
+                    currOrder->setStatus(OrderStatus::COLLECTING);
+                }
+                else{
+                    currOrder->setStatus(OrderStatus::DELIVERING);
+                }
+                break;
+            }
+        }
+    }
+    
+}
+
 //function isExist - helps us understand the people type by a keyword
 bool isExist(string line, string toFind){
     size_t place = line.find(toFind);
     bool ExistsInLine = (place != std::string::npos);
     return ExistsInLine;
 }
-
 
 void configFilePath(){
     string line;
@@ -104,10 +132,10 @@ void configFilePath(){
 }
 
 //**NEW** function - simulate step2
-void step2() {
+void WareHouse:: step2() {
 
 for (Volunteer *currentVol : volunteers){
-    if (*currentVol.isBusy()){
+    if (currentVol.isBusy()){
         if (*currentVol.type = CollectorVolunteer){
             if (*currentVol.decreaseCoolDown()){
                 *currentVol.restoreTimeLeft();
@@ -124,4 +152,5 @@ for (Volunteer *currentVol : volunteers){
     }
 
     }
+}
 }
