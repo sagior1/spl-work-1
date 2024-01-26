@@ -4,9 +4,7 @@
 #include <vector>
 
 Customer:: Customer(int id, const string &name, int locationDistance, int maxOrders)
-    : id(id), name(name), locationDistance(locationDistance), maxOrders(maxOrders) {
-
-    }
+    : id(id), name(name), locationDistance(locationDistance), maxOrders(maxOrders),ordersId() { }
 
 const string &Customer:: getName() const{
     return name;
@@ -37,7 +35,6 @@ bool Customer:: canMakeOrder() const{
     else
         return -1;
  }
- Customer::~Customer() {}
 
  //soldier customer
  SoldierCustomer:: SoldierCustomer(int id, const string &name, int locationDistance, int maxOrders)// i am intrested why the name is &name
@@ -47,7 +44,7 @@ bool Customer:: canMakeOrder() const{
 SoldierCustomer* SoldierCustomer::clone() const {
     return new SoldierCustomer(*this);
 }
- SoldierCustomer::~SoldierCustomer() {}
+
 
 //civilian customer
 CivilianCustomer:: CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders)// i am intrested why the name is &name
@@ -57,4 +54,4 @@ CivilianCustomer:: CivilianCustomer(int id, const string &name, int locationDist
 CivilianCustomer* CivilianCustomer::clone() const {// i am not sure what is the right way to do the clone function
     return new CivilianCustomer(*this);
 }
- CivilianCustomer::~CivilianCustomer() {}
+
