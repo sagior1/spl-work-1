@@ -31,7 +31,7 @@ bool Volunteer:: isBusy() const{
 
 //CollectorVolunteer
 
-CollectorVolunteer:: CollectorVolunteer(int id1, const string &name1, int coolDown1):id(id1),name(name1),coolDown(coolDown1){
+CollectorVolunteer:: CollectorVolunteer(int id1, const string &name1, int coolDown1):Volunteer(id1,name1),coolDown(coolDown1){
     timeLeft=coolDown1; //restart timeleft
     completedOrderId=NO_ORDER;//set to -1
     activeOrderId=NO_ORDER;
@@ -90,7 +90,7 @@ bool LimitedCollectorVolunteer:: hasOrdersLeft() const{
     return ordersLeft>0;
 } 
 bool LimitedCollectorVolunteer:: canTakeOrder(const Order &order) const{//same note as normal collector
-    if(hasOrdersLeft()&&order.getStatus()==OrderStatus::COLLECTING&&getTimeLeft()==0){
+    if(hasOrdersLeft()&&order.getStatus()==OrderStatus::PENDING&&getTimeLeft()==0){
         return true;
     }
     else return false;
@@ -111,3 +111,71 @@ return CollectorVolunteer::toString();
 }
 
 //driverVolunteer
+
+DriverVolunteer:: DriverVolunteer(int id, const string &name, int maxDistance, int distancePerStep): Volunteer(id, name),maxDistance(maxDistance), distancePerStep(distancePerStep){
+    distanceLeft=0;
+}
+DriverVolunteer* DriverVolunteer::clone() const {
+    return new DriverVolunteer(*this);
+}
+int DriverVolunteer :: getDistanceLeft() const{
+    return distanceLeft;
+}
+int DriverVolunteer:: getMaxDistance() const{
+    return maxDistance;
+}
+int DriverVolunteer:: getDistancePerStep() const{
+    return distancePerStep;
+}
+bool DriverVolunteer::decreaseDistanceLeft(){
+    distanceLeft--;
+    return (distanceLeft<=0);
+}
+bool DriverVolunteer:: hasOrdersLeft() const{
+    return true;
+}
+bool DriverVolunteer:: canTakeOrder(const Order &order) const{
+        if(order.getStatus()==OrderStatus::COLLECTING&&getDistanceLeft()==0){
+            return true;
+        }
+        else
+            return false;
+}
+void DriverVolunteer:: acceptOrder(const Order &order){
+    distanceLeft=order.getDistance();
+    activeOrderId=order.getId();
+}
+//add step here
+string DriverVolunteer:: toString() const{//maybe add other things
+    return "id: "+ std::to_string(getId())+"name: "+ getName();
+}
+
+//LimitedDriverVolunteer
+
+LimitedDriverVolunteer:: LimitedDriverVolunteer(int id, const string &name, int maxDistance, int distancePerStep,int maxOrders):DriverVolunteer(id,name,maxDistance,distancePerStep),maxOrders(maxOrders),ordersLeft(maxOrders){
+}
+LimitedDriverVolunteer* LimitedDriverVolunteer::clone() const {
+    return new LimitedDriverVolunteer(*this);
+}
+int LimitedDriverVolunteer:: getMaxOrders() const{
+    return maxOrders;
+}
+int LimitedDriverVolunteer:: getNumOrdersLeft() const{
+    return ordersLeft;
+}
+bool LimitedDriverVolunteer:: hasOrdersLeft() const{
+    return (ordersLeft>0);
+}
+bool LimitedDriverVolunteer:: canTakeOrder(const Order &order) const{
+    if(hasOrdersLeft()&&order.getStatus()==OrderStatus::COLLECTING&&getDistanceLeft()==0){
+        return true;
+    }
+    else return false;
+}
+void LimitedDriverVolunteer:: acceptOrder(const Order &order){
+    DriverVolunteer::acceptOrder(order); // Call the acceptOrder of the base class
+    ordersLeft--; // Decrease the number of orders left
+}
+string LimitedDriverVolunteer:: toString() const{//maybe need to change
+    return DriverVolunteer::toString();
+}
