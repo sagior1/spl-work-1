@@ -31,13 +31,45 @@ void WareHouse:: addCustomer(Customer* newCustomer){
 }
 
 //getting a customer by ID
-Customer& WareHouse:: getCustomer(int cID) const{
-    for (auto &customer : customers) {
+Customer &WareHouse:: getCustomer(int cID) const{//maybe need here another return if we dont find the customer
+    static CivilianCustomer invalidCustomer(-1, "Invalid", 0, 0); // Represents an invalid customer
+    for (Customer *customer : customers) {
         if (customer->getId() == cID) {
             return *customer;
         }
     }
+    return invalidCustomer; // Return the invalid customer if no match is found
+}//need to check if this hirtut is good
+
+Volunteer &WareHouse:: getVolunteer(int vID) const{//maybe need here another return if we dont find the volunteer
+    static CollectorVolunteer invalidVolunteer(-1,"Invalid",0);
+    for (Volunteer *vol : volunteers) {
+        if (vol->getId() == vID) {
+            return *vol;
+        }
+    }
+    return invalidVolunteer;
 }
+
+
+Order &WareHouse:: getOrder(int oID) const{//maybe need here another return if we dont find the volunteer
+    for (Order *order1 : pendingOrders) {
+        if (order1->getId() == oID) {
+            return *order1;
+        }
+    }
+        for (Order *order1 : inProcessOrders) {
+        if (order1->getId() == oID) {
+            return *order1;
+        }
+    }
+        for (Order *order1 : completedOrders) {
+        if (order1->getId() == oID) {
+            return *order1;
+        }
+    }
+}
+
 
 void WareHouse:: step(){
     pendingOrdersStep();
