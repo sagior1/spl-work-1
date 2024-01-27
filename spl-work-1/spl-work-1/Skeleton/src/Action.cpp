@@ -12,6 +12,11 @@ using namespace std;
 
 
 //BaseAction
+BaseAction::BaseAction() : errorMsg(""), status(ActionStatus::COMPLETED) {}
+
+ActionStatus BaseAction::getStatus() const {
+    return status;
+}
 void BaseAction:: error(string errorMSG){
     errorMsg = errorMSG;
     status = ActionStatus::ERROR;
@@ -44,8 +49,17 @@ void AddCustomer::act(WareHouse &wareHouse) {
 AddCustomer *AddCustomer::clone() const {
     return new AddCustomer(*this);
 }
-string AddCustomer::toString() const{//need to check the what is needed in this toString
-    return "AddCustomer: " + customerName;
+string AddCustomer::toString() const{
+    string s1;
+    s1+="Customer " + customerName;
+    if(customerType==CustomerType::Soldier){
+        s1+=" Soldier ";
+    }
+    else{
+        s1+=" Civilian ";
+    }
+    s1+=distance +" "+ maxOrders;
+    return s1;
 }
 
 
@@ -81,4 +95,24 @@ void PrintCustomerStatus::act(WareHouse &wareHouse) {
     
         complete();
 }
+PrintCustomerStatus* PrintCustomerStatus::clone() const {
+    return new PrintCustomerStatus(*this);
+}
+string PrintOrderStatus:: toString() const{
+    string s1;
+    if(getStatus()==ActionStatus::COMPLETED){
+        s1+="status: Completed";
+    }
+    else{
+        s1+="status: Error \n";
+        s1+= "errorMsg: " + getErrorMsg()+"\n";
+    }
+    s1+="\n" ;
+    s1+= "orderID: "+ std::to_string(orderId) + "\n";
+    return s1;
+}
 
+//PrintVolunteerStatus
+PrintVolunteerStatus::PrintVolunteerStatus(int id):volunteerId(id){
+    
+}
