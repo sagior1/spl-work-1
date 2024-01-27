@@ -35,10 +35,16 @@ class WareHouse {
         void isExist();
         void FileTOCode(string configFilePath);
         bool isExist(string line, string toFind);
-        //***new***
+
         void moveBetweenVectors(vector<Order*> vectorToDelete, vector<Order*> vectorToInsert, Order order1);
         void deleteSpecificVolenteer(Volunteer* volToDelete );
         void processOrdersStep(); //delete step2()
+
+        //***new***
+        ~WareHouse(); 
+        WareHouse(const WareHouse& other);
+        WareHouse& operator=(const WareHouse& other);
+
         //***new***
     private:
         bool isOpen;
