@@ -143,12 +143,12 @@ bool isExist(string line, string toFind){
     return ExistsInLine;
 }
 
-void configFilePath(){
+void WareHouse::FileTOCode(string configFilePath){
     string line;
     fstream MYfile;
     //here you insert the file path
     //***TODO***  - check how todo it by name
-    MYfile.open("C:\\Users\\rotem\\rotem\\SPLwork1\\RotemsFile.txt", ios::in);
+    MYfile.open(configFilePath, ios::in);
     //initial all the relevant data types.
     string customer, volunteer, name, cType, vType;
     int customer_distance, max_orders, volunteer_coolDown, volunteer_maxDistance, distance_per_step;
@@ -167,36 +167,53 @@ void configFilePath(){
         
         //recognize the type of the person (costumer / volenteer) and also the inner types (collector / limited_collector exc) 
         //inside the "if", seperate the line to the relevant variabels and initiate the person in the wearhouse
-        if (isExist(line2, "customer")){
-            cout << "customer"<< endl;
+        if (isExist(line2, "solider")){
+            //cout << "solider"<< endl;
              std::istringstream checked_line(line2);
              checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
-             cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
-            
+             SoldierCustomer* SoliderCustomer1 = new SoldierCustomer(getcustomerCounter(),name, customer_distance, max_orders);
+             addCustomer(SoliderCustomer1);
+             //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
+        }
+        if (isExist(line2, "customer")){
+            //cout << "customer"<< endl;
+             std::istringstream checked_line(line2);
+             checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
+             CivilianCustomer* CivilianCustomer1 = new CivilianCustomer(getcustomerCounter(), name, customer_distance, max_orders);
+             addCustomer(CivilianCustomer1);
+             //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
         }
         else if (isExist(line2, "limited_collector")){
             cout << "limited_collector" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_coolDown >> max_orders;
-            cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << ", " << max_orders << endl;
+            LimitedCollectorVolunteer* LimitedCollectorVolunteer1 = new LimitedCollectorVolunteer(getVolunteerCounter() ,name, volunteer_coolDown ,max_orders);
+            addVolunteer(LimitedCollectorVolunteer1);
+            //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << ", " << max_orders << endl;
         }
         else if (isExist(line2, "collector")){
             cout << "collector" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_coolDown;
-            cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << endl;
+            CollectorVolunteer* CollectorVolunteer1 = new CollectorVolunteer(getVolunteerCounter(), name, volunteer_coolDown);
+            addVolunteer(CollectorVolunteer1);
+            //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << endl;
         }
         else if (isExist(line2, "limited_driver")){
             cout << "limited_driver" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_maxDistance >> distance_per_step >> max_orders;
-            cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_maxDistance << ", " << distance_per_step << ", " << max_orders << endl;
+            LimitedDriverVolunteer* LimitedDriverVolunteer1= new LimitedDriverVolunteer(getVolunteerCounter(), name, volunteer_maxDistance, distance_per_step, max_orders);
+            addVolunteer(LimitedDriverVolunteer1);
+            //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_maxDistance << ", " << distance_per_step << ", " << max_orders << endl;
         }
         else if (isExist(line2, "driver")){
             cout << "driver" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_maxDistance >> distance_per_step;
-            cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_maxDistance << ", " << distance_per_step << endl;
+            DriverVolunteer* DriverVolunteer1 = new DriverVolunteer(getVolunteerCounter(), name, volunteer_maxDistance, distance_per_step);
+            addVolunteer(DriverVolunteer1);
+            // << volunteer << ", " << name << ", " << vType << ", " << volunteer_maxDistance << ", " << distance_per_step << endl;
         }
     }
     
