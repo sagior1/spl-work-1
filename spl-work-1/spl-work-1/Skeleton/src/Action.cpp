@@ -51,6 +51,32 @@ void BaseAction:: complete(){
     status = ActionStatus::COMPLETED;
 }
 
+//AddOrder  
+AddOrder::AddOrder(const int customerId) : customerId(customerId){}
+
+void AddOrder::act(WareHouse &wareHouse){
+    Customer &customer1 = wareHouse.getCustomer(customerId);
+    int customer_distance = customer1.getCustomerDistance();
+    Order *order1 =new Order(wareHouse.getOrderCounter(), customerId, customer_distance);
+    if(customer1.canMakeOrder()){
+        wareHouse.addOrder(order1);
+        complete();
+        wareHouse.addAction(this);
+    }
+    else {
+        error("There is no customer with customerID=" + to_string(customerId));
+    } 
+
+} 
+
+string AddOrder:: toString() const{
+    return "AddOrder: Completed";
+}
+
+AddOrder *AddOrder::clone() const {
+    return new AddOrder(*this);
+}
+
 //addCustomer
 
 AddCustomer::AddCustomer(string customerName1, string customerType1, int distance1, int maxOrders1) 
