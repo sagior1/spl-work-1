@@ -37,7 +37,7 @@ bool Customer:: canMakeOrder() const{
  }
 
  //soldier customer
- SoldierCustomer:: SoldierCustomer(int id, const string &name, int locationDistance, int maxOrders)// i am intrested why the name is &name
+ SoldierCustomer:: SoldierCustomer(int id, const string &name, int locationDistance, int maxOrders)
     : Customer(id, name, locationDistance, maxOrders) {}
 
 
@@ -47,11 +47,11 @@ SoldierCustomer* SoldierCustomer::clone() const {
 
 
 //civilian customer
-CivilianCustomer:: CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders)// i am intrested why the name is &name
+CivilianCustomer:: CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders)
     : Customer(id, name, locationDistance, maxOrders) {}
 
 
-CivilianCustomer* CivilianCustomer::clone() const {// i am not sure what is the right way to do the clone function
+CivilianCustomer* CivilianCustomer::clone() const {
     return new CivilianCustomer(*this);
 }
 
