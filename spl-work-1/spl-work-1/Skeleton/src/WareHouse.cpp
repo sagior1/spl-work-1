@@ -187,6 +187,14 @@ int &WareHouse:: getcustomerCounter() const{
     return const_cast<int&>(customerCounter); //i dont know if this is right
 }
 
+int WareHouse:: getVolunteerCounter() const{
+    return (volunteerCounter);
+}
+
+int WareHouse:: getOrderCounter() const{
+    return ordersCounter;
+}
+
 void WareHouse:: step(){
     pendingOrdersStep();
     processOrdersStep();
