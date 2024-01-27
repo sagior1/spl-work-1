@@ -106,6 +106,8 @@ void WareHouse:: start(){
 }
 void WareHouse::addOrder(Order* order){
     pendingOrders.push_back(order);
+    ordersCounter++;
+    
 }
 void WareHouse:: addAction(BaseAction* action){
     actionsLog.push_back(action);
@@ -304,6 +306,7 @@ void WareHouse::FileTOCode(string configFilePath){
     MYfile.close();
 
 }
+
 //***NEW****
 void WareHouse::moveBetweenVectors(vector<Order*> vectorToDelete, vector<Order*> vectorToInsert, Order order1){
     Order* pOrder = &order1;
