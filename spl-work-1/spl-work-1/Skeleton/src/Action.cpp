@@ -123,6 +123,18 @@ void PrintCustomerStatus::act(WareHouse &wareHouse) {
 PrintCustomerStatus* PrintCustomerStatus::clone() const {
     return new PrintCustomerStatus(*this);
 }
+string PrintCustomerStatus:: toString() const{
+    string s1="";
+    if(getStatus()==ActionStatus::COMPLETED){
+        s1+="status: Completed";
+    }
+    else{
+        s1+="status: Error \n";
+        s1+= "errorMsg: " + getErrorMsg()+"\n";
+    }
+    s1+= "customerID: "+ std::to_string(customerId) + "\n";
+    return s1;
+}
 string PrintOrderStatus:: toString() const{
     string s1;
     if(getStatus()==ActionStatus::COMPLETED){
