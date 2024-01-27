@@ -13,6 +13,26 @@ using namespace std;
 //global variable backup
 extern WareHouse* backup;
 
+//simulate step
+SimulateStep::SimulateStep(int numOfSteps) : numOfSteps(numOfSteps){}
+
+void SimulateStep::act(WareHouse &wareHouse) {
+    for(int i=0; i < numOfSteps; i++){
+        wareHouse.step();
+    }
+    complete();
+    wareHouse.addAction(this);
+}
+
+SimulateStep *SimulateStep::clone() const {
+    return new SimulateStep(*this);
+}
+
+string SimulateStep::toString() const{
+    string output = std::to_string(numOfSteps) + "actions completed";
+    return output;
+}
+
 
 //BaseAction
 BaseAction::BaseAction() : errorMsg(""), status(ActionStatus::COMPLETED) {}
