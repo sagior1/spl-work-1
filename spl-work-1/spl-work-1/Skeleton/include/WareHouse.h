@@ -33,10 +33,12 @@ class WareHouse {
         void pendingOrdersStep();//done
         void step2();
         void isExist();
-
-         //***new***
         void FileTOCode(string configFilePath);
         bool isExist(string line, string toFind);
+        //***new***
+        void moveBetweenVectors(vector<Order*> vectorToDelete, vector<Order*> vectorToInsert, Order order1);
+        void deleteSpecificVolenteer(Volunteer* volToDelete );
+        void processOrdersStep(); //delete step2()
         //***new***
     private:
         bool isOpen;
