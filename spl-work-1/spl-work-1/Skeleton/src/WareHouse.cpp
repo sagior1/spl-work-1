@@ -227,43 +227,21 @@ bool WareHouse::isExist(string line, string toFind){
     return ExistsInLine;
 }
 
-void WareHouse::FileTOCode(string configFilePath){
-    string line;
-    fstream MYfile;
-    //here you insert the file path
-    //***TODO***  - check how todo it by name
-    MYfile.open(configFilePath, ios::in);
-    //initial all the relevant data types.
-    string customer, volunteer, name, cType, vType;
-    int customer_distance, max_orders, volunteer_coolDown, volunteer_maxDistance, distance_per_step;
-    //starts the loop that reads the file
-    while (getline(MYfile, line)){
-        //dont read the comments in the file, in or out the lines
-        size_t place = line.find('#');
-        if (line.empty() || line[0] == '#'){
-            continue;
-        }
-        string line2;
-        if (place != std::string::npos){
-            line2 = line.substr(0, place);
-        }
-        else (line2=line);
-        
-        //recognize the type of the person (costumer / volenteer) and also the inner types (collector / limited_collector exc) 
+//recognize the type of the person (costumer / volenteer) and also the inner types (collector / limited_collector exc) 
         //inside the "if", seperate the line to the relevant variabels and initiate the person in the wearhouse
         if (isExist(line2, "solider")){
-            //cout << "solider"<< endl;
+            cout << "solider"<< endl;
              std::istringstream checked_line(line2);
              checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
-             SoldierCustomer* SoliderCustomer1 = new SoldierCustomer(customerCounter,name, customer_distance, max_orders);
+             SoldierCustomer* SoliderCustomer1 = new SoldierCustomer(getcustomerCounter(),name, customer_distance, max_orders);
              addCustomer(SoliderCustomer1);
              //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
         }
         if (isExist(line2, "customer")){
-            //cout << "customer"<< endl;
+            cout << "customer"<< endl;
              std::istringstream checked_line(line2);
              checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
-             CivilianCustomer* CivilianCustomer1 = new CivilianCustomer(customerCounter, name, customer_distance, max_orders);
+             CivilianCustomer* CivilianCustomer1 = new CivilianCustomer(getcustomerCounter(), name, customer_distance, max_orders);
              addCustomer(CivilianCustomer1);
              //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
         }
