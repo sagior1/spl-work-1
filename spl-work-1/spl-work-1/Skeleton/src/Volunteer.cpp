@@ -59,7 +59,7 @@ bool CollectorVolunteer::hasOrdersLeft() const{
     return true;
 }
 bool CollectorVolunteer:: canTakeOrder(const Order &order1) const{//here i put if the order is in collecting phase for the volunteer to be able to take it
-    if(order1.getStatus()==OrderStatus::COLLECTING&&getTimeLeft()==0){
+    if(order1.getStatus()==OrderStatus::COLLECTING&&!isBusy()){
         return true;
     }
     else{
@@ -98,7 +98,7 @@ bool LimitedCollectorVolunteer:: hasOrdersLeft() const{
     return ordersLeft>0;
 } 
 bool LimitedCollectorVolunteer:: canTakeOrder(const Order &order) const{//same note as normal collector
-    if(hasOrdersLeft()&&order.getStatus()==OrderStatus::PENDING&&getTimeLeft()==0){
+    if(hasOrdersLeft()&&order.getStatus()==OrderStatus::PENDING&&!isBusy()){
         return true;
     }
     else return false;
@@ -151,7 +151,7 @@ bool DriverVolunteer:: hasOrdersLeft() const{
     return true;
 }
 bool DriverVolunteer:: canTakeOrder(const Order &order) const{
-        if(order.getStatus()==OrderStatus::COLLECTING&&getDistanceLeft()==0){
+        if(order.getStatus()==OrderStatus::COLLECTING&&!isBusy()){
             return true;
         }
         else
@@ -192,7 +192,7 @@ bool LimitedDriverVolunteer:: hasOrdersLeft() const{
     return (ordersLeft>0);
 }
 bool LimitedDriverVolunteer:: canTakeOrder(const Order &order) const{
-    if(hasOrdersLeft()&&order.getStatus()==OrderStatus::COLLECTING&&getDistanceLeft()==0){
+    if(hasOrdersLeft()&&order.getStatus()==OrderStatus::COLLECTING&&!isBusy()){
         return true;
     }
     else return false;
