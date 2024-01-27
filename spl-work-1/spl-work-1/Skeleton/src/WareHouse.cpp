@@ -13,21 +13,89 @@
 #include<vector> 
 using namespace std;
 
+//Destructor
 WareHouse::~WareHouse() {
-    // Delete all dynamically allocated Customer objects
+    // Delete all dynamically allocated Customers
     for (Customer* customer : customers) {
         delete customer;
     }
     customers.clear();
-    // Delete all dynamically allocated Volunteer objects
+    // Delete all dynamically allocated Volunteers
     for (Volunteer* volunteer : volunteers) {
         delete volunteer;
     }
     volunteers.clear();
+    // Delete all dynamically allocated Orders
+    for (Order* order : pendingOrders) {
+        delete order;
+    }
+    pendingOrders.clear();
+        for (Order* order : inProcessOrders) {
+        delete order;
+    }
+    inProcessOrders.clear();
+        for (Order* order : completedOrders) {
+        delete order;
+    }
+    completedOrders.clear();
+}
+
+//Copy assignment operator
+WareHouse& WareHouse::operator=(const WareHouse& other) {
+    if (this != &other) { // protect against invalid self-assignment
+        // 1: deallocate memory that 'this' used to hold
+        for(auto &action : actionsLog)
+            delete action;
+        for(auto &volunteer : volunteers)
+            delete volunteer;
+        for(auto &order : pendingOrders)
+            delete order;
+        for(auto &order : inProcessOrders)
+            delete order;
+        for(auto &order : completedOrders)
+            delete order;
+        for(auto &customer : customers)
+            delete customer;
+
+        // 2: allocate new memory and copy the elements
+        actionsLog = other.actionsLog;
+        volunteers = other.volunteers;
+        pendingOrders = other.pendingOrders;
+        inProcessOrders = other.inProcessOrders;
+        completedOrders = other.completedOrders;
+        customers = other.customers;
+
+        // 3: assign the other members
+        isOpen = other.isOpen;
+        customerCounter = other.customerCounter;
+        volunteerCounter = other.volunteerCounter;
+    }
+    // by convention, always return *this
+    return *this;
 }
 
 
-void WareHouse:: start(){//i dont know what is needed here
+// Copy constructor
+WareHouse::WareHouse(const WareHouse& other) 
+    : isOpen(other.isOpen), 
+      customerCounter(other.customerCounter), 
+      volunteerCounter(other.volunteerCounter) {
+    // Deep copy each vector
+    for(BaseAction *action : other.actionsLog)
+        actionsLog.push_back(action.clone());
+    for(auto *volunteer : other.volunteers)
+        volunteers.push_back(volunteer->clone());
+    for(auto *order : other.pendingOrders)
+        pendingOrders.push_back(new Order(*order));
+    for(auto *order : other.inProcessOrders)
+        inProcessOrders.push_back(new Order(*order));
+    for(auto *order : other.completedOrders)
+        completedOrders.push_back(new Order(*order));
+    for(auto *customer : other.customers)
+        customers.push_back(customer->clone());
+}
+
+void WareHouse:: start(){
     open();
     cout<<"Warehouse is open!";
 }
@@ -129,6 +197,8 @@ void WareHouse:: pendingOrdersStep(){
                 else{
                     currOrder->setStatus(OrderStatus::DELIVERING);
                 }
+                inProcessOrders.push_back(currOrder);
+                pendingOrders.erase(currOrder);
                 break;
             }
         }
