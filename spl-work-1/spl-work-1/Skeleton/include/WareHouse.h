@@ -44,7 +44,8 @@ class WareHouse {
         ~WareHouse(); 
         WareHouse(const WareHouse& other);
         WareHouse& operator=(const WareHouse& other);
-
+        WareHouse(WareHouse&& other);
+        WareHouse& operator=(WareHouse&& other);
         //***new***
     private:
         bool isOpen;
