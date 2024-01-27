@@ -10,6 +10,8 @@ using std::vector;
 using namespace std; 
 
 
+//global variable backup
+extern WareHouse* backup;
 
 
 //BaseAction
@@ -40,9 +42,9 @@ void AddCustomer::act(WareHouse &wareHouse) {
     int idnew = wareHouse.getcustomerCounter() + 1;
     Customer* newCustomer;
     if((int)customerType==0)// i dont know if this is ok
-        SoldierCustomer* newCustomer = new SoldierCustomer(idnew, customerName, distance, maxOrders);//we need to check how to delete this in the end becuase its in the heap
+        newCustomer = new SoldierCustomer(idnew, customerName, distance, maxOrders);//we need to check how to delete this in the end becuase its in the heap
     else
-        CivilianCustomer* newCustomer = new CivilianCustomer(idnew, customerName, distance, maxOrders);//we need to check how to delete this in the end becuase its in the heap
+        newCustomer = new CivilianCustomer(idnew, customerName, distance, maxOrders);//we need to check how to delete this in the end becuase its in the heap
     wareHouse.addCustomer(newCustomer);
     complete();
     wareHouse.addAction(this);
@@ -168,5 +170,17 @@ PrintActionsLog* PrintActionsLog::clone() const {
 string PrintActionsLog:: toString() const{
     return "PrintActionLog: Completed";
 }
-//
 
+//BackupWareHouse
+BackupWareHouse::BackupWareHouse(){}
+void BackupWareHouse::act(WareHouse &wareHouse){
+    backup=new WareHouse(wareHouse);
+    complete();
+    wareHouse.addAction(this);
+}
+BackupWareHouse* BackupWareHouse::clone() const {
+    return new BackupWareHouse(*this);
+}
+string BackupWareHouse:: toString() const{
+    return "Backup: Completed";
+}
