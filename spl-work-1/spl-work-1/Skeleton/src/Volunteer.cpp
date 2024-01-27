@@ -210,7 +210,6 @@ string LimitedDriverVolunteer:: toString() const{
     else{
         s1+="None";
     }
-    s1+="\n ordersLeft: "+ getNumOrdersLeft();
-
+    s1+="\n ordersLeft: "+ std::to_string(getNumOrdersLeft());
     return s1;
 }
