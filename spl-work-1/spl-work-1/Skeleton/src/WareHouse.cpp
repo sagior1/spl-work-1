@@ -107,7 +107,7 @@ void WareHouse:: start(){
 void WareHouse::addOrder(Order* order){
     pendingOrders.push_back(order);
     ordersCounter++;
-    
+    cout<<"added order"<<order->getId()<<"to "<<order->getCustomerId();
 }
 void WareHouse:: addAction(BaseAction* action){
     actionsLog.push_back(action);
@@ -117,11 +117,14 @@ void WareHouse:: addAction(BaseAction* action){
 void WareHouse:: addCustomer(Customer* newCustomer){
     customers.push_back(newCustomer);
     customerCounter ++;
+    cout<<"added customer";
+    cout<<newCustomer->getName();
 }
 
 void WareHouse:: addVolunteer(Volunteer* newVolunteer){
     volunteers.push_back(newVolunteer);
     volunteerCounter++;
+    cout<<"added volunteer "<<newVolunteer->getName();
 }
 
 void WareHouse:: deleteVolunteer(int vID){
@@ -368,4 +371,4 @@ for(auto *currOrder : inProcessOrders){
 }    
     
 
-    }
+}
