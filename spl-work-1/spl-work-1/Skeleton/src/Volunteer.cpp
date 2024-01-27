@@ -116,14 +116,14 @@ int LimitedCollectorVolunteer:: getNumOrdersLeft() const{
     return ordersLeft;
 }
 string LimitedCollectorVolunteer:: toString() const{ 
-    string s1= "name: " + getName() + "\n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(isBusy())+ "\n orderID: ";
+    string s1= "name: " + getName() + "volunteerID: " + std::to_string(getId()) + " isBusy: " + std::to_string(isBusy())+ " orderID: ";
     if(isBusy()){
         s1+=activeOrderId;
     }
     else{
         s1+="None";
     }
-    s1+="\n ordersLeft: "+getNumOrdersLeft();
+    s1+=" ordersLeft: "+std::to_string(getNumOrdersLeft());
 
     return s1;
 }
