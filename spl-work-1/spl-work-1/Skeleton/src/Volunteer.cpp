@@ -130,6 +130,13 @@ string LimitedCollectorVolunteer:: toString() const{
 
 //driverVolunteer
 
+void DriverVolunteer::step() {
+    distanceLeft = distanceLeft-distancePerStep;
+    if(distanceLeft <= 0){
+        activeOrderId = NO_ORDER;
+    }
+}
+
 DriverVolunteer:: DriverVolunteer(int id, const string &name, int maxDistance, int distancePerStep): Volunteer(id, name),maxDistance(maxDistance), distancePerStep(distancePerStep),distanceLeft(0){
 }
 DriverVolunteer* DriverVolunteer::clone() const {
