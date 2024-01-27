@@ -3,7 +3,7 @@
 #include "../include/Order.h"
 #include "../include/Customer.h"
 #include "../include/WareHouse.h"
-#include "../include/WareHouse.h"
+#include "../include/Action.h"
 #include "../include/Volunteer.h"
 #include <iostream>
 #include <fstream>
@@ -87,7 +87,7 @@ WareHouse::WareHouse(const WareHouse& other)
       volunteerCounter(other.volunteerCounter) {
     // Deep copy each vector
     for(BaseAction *action : other.actionsLog)
-        actionsLog.push_back(action.clone());
+        actionsLog.push_back(action->clone());
     for(auto *volunteer : other.volunteers)
         volunteers.push_back(volunteer->clone());
     for(auto *order : other.pendingOrders)
@@ -155,7 +155,8 @@ Volunteer &WareHouse:: getVolunteer(int vID) const{//maybe need here another ret
 }
 
 
-Order &WareHouse:: getOrder(int oID) const{//maybe need here another return if we dont find the volunteer
+Order &WareHouse:: getOrder(int oID) const{
+    static Order invalidOrder(-1,-1,-1);
     for (Order *order1 : pendingOrders) {
         if (order1->getId() == oID) {
             return *order1;
@@ -171,6 +172,7 @@ Order &WareHouse:: getOrder(int oID) const{//maybe need here another return if w
             return *order1;
         }
     }
+    return invalidOrder;
 }
 const vector<BaseAction*> &WareHouse:: getActions()const{
     return actionsLog;
@@ -202,8 +204,7 @@ void WareHouse:: pendingOrdersStep(){
                 else{
                     currOrder->setStatus(OrderStatus::DELIVERING);
                 }
-                inProcessOrders.push_back(currOrder);
-                pendingOrders.erase(currOrder);
+                moveBetweenVectors(pendingOrders,inProcessOrders,*currOrder);
                 break;
             }
         }
@@ -358,4 +359,3 @@ for(auto *currOrder : inProcessOrders){
     
 
     }
-
