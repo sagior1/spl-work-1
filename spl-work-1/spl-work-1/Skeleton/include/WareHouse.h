@@ -39,8 +39,10 @@ class WareHouse {
         void moveBetweenVectors(vector<Order*> vectorToDelete, vector<Order*> vectorToInsert, Order order1);
         void deleteSpecificVolenteer(Volunteer* volToDelete );
         void processOrdersStep(); //delete step2()
-
         //***new***
+        int getOrderCounter() const;
+        //**new****
+
         ~WareHouse(); 
         WareHouse(const WareHouse& other);
         WareHouse& operator=(const WareHouse& other);
@@ -57,4 +59,5 @@ class WareHouse {
         vector<Customer*> customers;
         int customerCounter; //For assigning unique customer IDs
         int volunteerCounter; //For assigning unique volunteer IDs
+        int ordersCounter; //For assigning unique order IDs
 };
