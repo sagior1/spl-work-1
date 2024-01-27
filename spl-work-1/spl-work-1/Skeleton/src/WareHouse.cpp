@@ -247,7 +247,7 @@ void WareHouse::FileTOCode(string configFilePath){
             //cout << "solider"<< endl;
              std::istringstream checked_line(line2);
              checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
-             SoldierCustomer* SoliderCustomer1 = new SoldierCustomer(getcustomerCounter(),name, customer_distance, max_orders);
+             SoldierCustomer* SoliderCustomer1 = new SoldierCustomer(customerCounter,name, customer_distance, max_orders);
              addCustomer(SoliderCustomer1);
              //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
         }
@@ -255,7 +255,7 @@ void WareHouse::FileTOCode(string configFilePath){
             //cout << "customer"<< endl;
              std::istringstream checked_line(line2);
              checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
-             CivilianCustomer* CivilianCustomer1 = new CivilianCustomer(getcustomerCounter(), name, customer_distance, max_orders);
+             CivilianCustomer* CivilianCustomer1 = new CivilianCustomer(customerCounter, name, customer_distance, max_orders);
              addCustomer(CivilianCustomer1);
              //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
         }
@@ -263,7 +263,7 @@ void WareHouse::FileTOCode(string configFilePath){
             cout << "limited_collector" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_coolDown >> max_orders;
-            LimitedCollectorVolunteer* LimitedCollectorVolunteer1 = new LimitedCollectorVolunteer(getVolunteerCounter() ,name, volunteer_coolDown ,max_orders);
+            LimitedCollectorVolunteer* LimitedCollectorVolunteer1 = new LimitedCollectorVolunteer(volunteerCounter ,name, volunteer_coolDown ,max_orders);
             addVolunteer(LimitedCollectorVolunteer1);
             //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << ", " << max_orders << endl;
         }
@@ -271,7 +271,7 @@ void WareHouse::FileTOCode(string configFilePath){
             cout << "collector" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_coolDown;
-            CollectorVolunteer* CollectorVolunteer1 = new CollectorVolunteer(getVolunteerCounter(), name, volunteer_coolDown);
+            CollectorVolunteer* CollectorVolunteer1 = new CollectorVolunteer(volunteerCounter, name, volunteer_coolDown);
             addVolunteer(CollectorVolunteer1);
             //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << endl;
         }
@@ -279,7 +279,7 @@ void WareHouse::FileTOCode(string configFilePath){
             cout << "limited_driver" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_maxDistance >> distance_per_step >> max_orders;
-            LimitedDriverVolunteer* LimitedDriverVolunteer1= new LimitedDriverVolunteer(getVolunteerCounter(), name, volunteer_maxDistance, distance_per_step, max_orders);
+            LimitedDriverVolunteer* LimitedDriverVolunteer1= new LimitedDriverVolunteer(volunteerCounter, name, volunteer_maxDistance, distance_per_step, max_orders);
             addVolunteer(LimitedDriverVolunteer1);
             //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_maxDistance << ", " << distance_per_step << ", " << max_orders << endl;
         }
@@ -287,7 +287,7 @@ void WareHouse::FileTOCode(string configFilePath){
             cout << "driver" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_maxDistance >> distance_per_step;
-            DriverVolunteer* DriverVolunteer1 = new DriverVolunteer(getVolunteerCounter(), name, volunteer_maxDistance, distance_per_step);
+            DriverVolunteer* DriverVolunteer1 = new DriverVolunteer(volunteerCounter, name, volunteer_maxDistance, distance_per_step);
             addVolunteer(DriverVolunteer1);
             // << volunteer << ", " << name << ", " << vType << ", " << volunteer_maxDistance << ", " << distance_per_step << endl;
         }
@@ -296,7 +296,6 @@ void WareHouse::FileTOCode(string configFilePath){
     MYfile.close();
 
 }
-
 //***NEW****
 void WareHouse::moveBetweenVectors(vector<Order*> vectorToDelete, vector<Order*> vectorToInsert, Order order1){
     Order* pOrder = &order1;
