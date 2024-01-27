@@ -8,6 +8,7 @@ Volunteer::Volunteer(int id1, const string &name1)
     : completedOrderId(NO_ORDER), activeOrderId(NO_ORDER),id(id1), name(name1) {
 }
 
+
 int Volunteer:: getId() const{
     return id;
 }
@@ -72,7 +73,7 @@ void CollectorVolunteer:: acceptOrder(const Order &order1){// i didnt take time 
 }
 string CollectorVolunteer:: toString() const{
     bool busy=(timeLeft!=0);
-    string s1= "name: " + getName() + "volunteerID: " + std::to_string(getId()) + " isBusy: " + std::to_string(busy)+ " orderID: ";
+    string s1= "name: " + getName() + "\n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(busy)+ "\n orderID: ";
     if(busy){
         s1+=activeOrderId;
     }
@@ -115,14 +116,14 @@ int LimitedCollectorVolunteer:: getNumOrdersLeft() const{
     return ordersLeft;
 }
 string LimitedCollectorVolunteer:: toString() const{ 
-    string s1= "name: " + getName() + "volunteerID: " + std::to_string(getId()) + " isBusy: " + std::to_string(isBusy())+ " orderID: ";
+    string s1= "name: " + getName() + "\n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(isBusy())+ "\n orderID: ";
     if(isBusy()){
         s1+=activeOrderId;
     }
     else{
         s1+="None";
     }
-    s1+=" ordersLeft: "+getNumOrdersLeft();
+    s1+="\n ordersLeft: "+getNumOrdersLeft();
 
     return s1;
 }
@@ -163,7 +164,7 @@ void DriverVolunteer:: acceptOrder(const Order &order){
 }
 //add step here
 string DriverVolunteer:: toString() const{
-    string s1= "name: " + getName() + "volunteerID: " + std::to_string(getId()) + " isBusy: " + std::to_string(isBusy())+ " orderID: ";
+    string s1= "name: " + getName() + "\n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(isBusy())+ "\n orderID: ";
     if(isBusy()){
         s1+=activeOrderId;
     }
@@ -202,14 +203,14 @@ void LimitedDriverVolunteer:: acceptOrder(const Order &order){
     ordersLeft--; // Decrease the number of orders left
 }
 string LimitedDriverVolunteer:: toString() const{
-    string s1= "name: " + getName() + "volunteerID: " + std::to_string(getId()) + " isBusy: " + std::to_string(isBusy())+ " orderID: ";
+    string s1= "name: " + getName() + " \n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(isBusy())+ "\n orderID: ";
     if(isBusy()){
         s1+=activeOrderId;
     }
     else{
         s1+="None";
     }
-    s1+=" ordersLeft: "+ getNumOrdersLeft();
+    s1+="\n ordersLeft: "+ getNumOrdersLeft();
 
     return s1;
 }
