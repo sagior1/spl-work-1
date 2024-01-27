@@ -91,33 +91,33 @@ string AddCustomer::toString() const{
 PrintCustomerStatus:: PrintCustomerStatus(int cID):customerId(cID){}
 
 void PrintCustomerStatus::act(WareHouse &wareHouse) {
-    if(customerId>wareHouse.getcustomerCounter()){
-        error("Customer Doesn't exist");
-    }
-    else{
         Customer *currentCustomer = &wareHouse.getCustomer(customerId);
-        cout <<"CustomerID:" <<currentCustomer->getId();
-        vector<int> orderIDS = currentCustomer->getOrdersIds();
-        for(int orderID: orderIDS){
-            cout<<"OrderID: "<< orderID;
-            if(wareHouse.getOrder(orderID).getStatus()==OrderStatus::PENDING){
-                cout<<"OrderStatus: Pending";
-            }
-            if(wareHouse.getOrder(orderID).getStatus()==OrderStatus::COMPLETED){
-                cout<<"OrderStatus: Completed";
-            }
-            if(wareHouse.getOrder(orderID).getStatus()==OrderStatus::DELIVERING){
-                cout<<"OrderStatus: Delivering";
-            }
-            if(wareHouse.getOrder(orderID).getStatus()==OrderStatus::COLLECTING){
-                cout<<"OrderStatus: Collecting";
-            }
-
+        if(currentCustomer->getId()==-1){
+            error("Customer Doesn't exist");
         }
-        cout<< "numOrdersLeft: "<<currentCustomer->getMaxOrders() - currentCustomer->getNumOrders();
-    }
+        else{
+            cout <<"CustomerID:" <<currentCustomer->getId();
+            vector<int> orderIDS = currentCustomer->getOrdersIds();
+            for(int orderID: orderIDS){
+                cout<<"OrderID: "<< orderID;
+                if(wareHouse.getOrder(orderID).getStatus()==OrderStatus::PENDING){
+                    cout<<"OrderStatus: Pending";
+                }
+                if(wareHouse.getOrder(orderID).getStatus()==OrderStatus::COMPLETED){
+                    cout<<"OrderStatus: Completed";
+                }
+                if(wareHouse.getOrder(orderID).getStatus()==OrderStatus::DELIVERING){
+                    cout<<"OrderStatus: Delivering";
+                }
+                if(wareHouse.getOrder(orderID).getStatus()==OrderStatus::COLLECTING){
+                    cout<<"OrderStatus: Collecting";
+                }
+            cout<< "numOrdersLeft: "<<currentCustomer->getMaxOrders() - currentCustomer->getNumOrders();
+            }
+            complete();
+        }
     
-    complete();
+    
     wareHouse.addAction(this);
 }
 PrintCustomerStatus* PrintCustomerStatus::clone() const {
