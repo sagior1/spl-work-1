@@ -213,7 +213,7 @@ void WareHouse:: pendingOrdersStep(){
 }
 
 //function isExist - helps us understand the people type by a keyword
-bool isExist(string line, string toFind){
+bool WareHouse::isExist(string line, string toFind){
     size_t place = line.find(toFind);
     bool ExistsInLine = (place != std::string::npos);
     return ExistsInLine;
