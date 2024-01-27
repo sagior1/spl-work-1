@@ -37,6 +37,14 @@ CollectorVolunteer::CollectorVolunteer(int id1, const string &name1, int coolDow
     activeOrderId=NO_ORDER;
 }
 
+//***NEW***
+void CollectorVolunteer::step() {
+    timeLeft--; 
+    if(timeLeft == 0){
+        activeOrderId = NO_ORDER;
+    }
+}
+
 CollectorVolunteer* CollectorVolunteer::clone() const {
     return new CollectorVolunteer(*this);
 }
