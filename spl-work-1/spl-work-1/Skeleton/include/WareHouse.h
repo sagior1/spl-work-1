@@ -33,6 +33,11 @@ class WareHouse {
         void pendingOrdersStep();//done
         void step2();
         void isExist();
+
+         //***new***
+        void FileTOCode(string configFilePath);
+        bool isExist(string line, string toFind);
+        //***new***
     private:
         bool isOpen;
         vector<BaseAction*> actionsLog;
