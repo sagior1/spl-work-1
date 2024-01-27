@@ -13,6 +13,11 @@
 #include<vector> 
 using namespace std;
 
+//constructor
+WareHouse::WareHouse(const string &configFilePath){
+   FileTOCode(configFilePath); 
+}
+
 //Destructor
 WareHouse::~WareHouse() {
     // Delete all dynamically allocated Customers
@@ -182,7 +187,7 @@ int &WareHouse:: getcustomerCounter() const{
 
 void WareHouse:: step(){
     pendingOrdersStep();
-    //processOrdersStep();
+    processOrdersStep();
 }
 
 void WareHouse:: pendingOrdersStep(){
@@ -291,26 +296,66 @@ void WareHouse::FileTOCode(string configFilePath){
 
 }
 
-//**NEW** function - simulate step2
-void WareHouse:: step2() {
-
-for (Volunteer *currentVol : volunteers){
-    if (currentVol.isBusy()){
-        if (*currentVol.type = CollectorVolunteer){
-            if (*currentVol.decreaseCoolDown()){
-                *currentVol.restoreTimeLeft();
-            }
-            //there is no need to call for decreaseCoolDown() again, because the function already decreesed the timeleft by 1.
+//***NEW****
+void WareHouse::moveBetweenVectors(vector<Order*> vectorToDelete, vector<Order*> vectorToInsert, Order order1){
+    Order* pOrder = &order1;
+    vectorToInsert.push_back(pOrder);
+    
+    auto iter = vectorToDelete.begin();
+    while (iter != vectorToDelete.end()) {
+        if (*iter == pOrder) {
+            iter = vectorToDelete.erase(iter);
+            break;
+        } else {
+            ++iter;
         }
-        else if (*currentVol.type = LimitedCollectorVolunteer){
-            if (*currentVol.decreaseCoolDown()){
-                *currentVol.restoreTimeLeft();
-                if (!(hasOrdersLeft())){
-                    //******DELETE*****
-                }
-        }
-    }
-
+        
     }
 }
+
+void WareHouse:: deleteSpecificVolenteer(Volunteer* volToDelete ){
+    auto iter = volunteers.begin();
+    while (iter != volunteers.end()) {
+        if (*iter == volToDelete) {
+            delete volToDelete;
+            iter = volunteers.erase(iter);
+            break;
+        } else {
+            ++iter;
+        }
+        
+    }
 }
+
+
+void WareHouse::processOrdersStep() {
+
+for(auto *currOrder : inProcessOrders){
+    if (currOrder->getStatus() == OrderStatus::COLLECTING){
+        int volId = currOrder->getCollectorId();
+        Volunteer &Volenteer1 = getVolunteer(volId);
+        Volenteer1.step();
+        if(!(Volenteer1.isBusy())){
+            moveBetweenVectors(inProcessOrders, pendingOrders, *currOrder);
+        }
+        if (!(Volenteer1.hasOrdersLeft())){
+            deleteSpecificVolenteer(&Volenteer1);
+        }
+    }
+    
+    else {
+       int volId = currOrder->getCollectorId();
+       Volunteer &Volenteer2 = getVolunteer(volId);
+       Volenteer2.step();
+       if(!(Volenteer2.isBusy())){
+            moveBetweenVectors(inProcessOrders, completedOrders, *currOrder);
+        }
+        if (!(Volenteer2.hasOrdersLeft())){
+            deleteSpecificVolenteer(&Volenteer2);
+        }
+    }
+}    
+    
+
+    }
+
