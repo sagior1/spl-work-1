@@ -15,6 +15,9 @@ using namespace std;
 
 //constructor
 WareHouse::WareHouse(const string &configFilePath){
+    customerCounter=0;
+    volunteerCounter=0;
+    ordersCounter=0;
    FileTOCode(configFilePath); 
 }
 
@@ -107,7 +110,6 @@ void WareHouse:: start(){
 void WareHouse::addOrder(Order* order){
     pendingOrders.push_back(order);
     ordersCounter++;
-    cout<<"added order"<<order->getId()<<"to "<<order->getCustomerId();
 }
 void WareHouse:: addAction(BaseAction* action){
     actionsLog.push_back(action);
@@ -117,14 +119,12 @@ void WareHouse:: addAction(BaseAction* action){
 void WareHouse:: addCustomer(Customer* newCustomer){
     customers.push_back(newCustomer);
     customerCounter ++;
-    cout<<"added customer";
     cout<<newCustomer->getName();
 }
 
 void WareHouse:: addVolunteer(Volunteer* newVolunteer){
     volunteers.push_back(newVolunteer);
     volunteerCounter++;
-    cout<<"added volunteer "<<newVolunteer->getName();
 }
 
 void WareHouse:: deleteVolunteer(int vID){
@@ -141,7 +141,8 @@ void WareHouse:: deleteVolunteer(int vID){
 //getting a customer by ID
 Customer &WareHouse:: getCustomer(int cID) const{//maybe need here another return if we dont find the customer
     static CivilianCustomer invalidCustomer(-1, "Invalid", 0, 0); // Represents an invalid customer
-    for (Customer *customer : customers) {
+    for (auto *customer : customers) {
+        cout<<"searching customer.. "+ customer->getName() + " searching for id: "+ std::to_string(customer->getId());
         if (customer->getId() == cID) {
             return *customer;
         }
