@@ -5,7 +5,6 @@
 
 Customer:: Customer(int id, const string &name, int locationDistance, int maxOrders)
     : id(id), name(name), locationDistance(locationDistance), maxOrders(maxOrders),ordersId(),ordersLeft(maxOrders) { 
-        std::cout<<"customer maxordEs "+std::to_string(maxOrders);
     }
 
 const string &Customer:: getName() const{
@@ -24,7 +23,6 @@ int Customer:: getNumOrders() const{
     return ordersId.size();
 }
 bool Customer:: canMakeOrder() const{
-    std::cout<<"\n can make order? " + std::to_string(ordersLeft);
     return (ordersLeft>0);
 }
  const vector<int> &Customer:: getOrdersIds() const{
