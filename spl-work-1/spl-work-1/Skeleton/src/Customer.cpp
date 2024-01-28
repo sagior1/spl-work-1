@@ -28,6 +28,9 @@ bool Customer:: canMakeOrder() const{
  const vector<int> &Customer:: getOrdersIds() const{
     return ordersId;
  }
+ int Customer:: getOrdersLeft() const{
+    return ordersLeft;
+ }
  int Customer:: addOrder(int orderId){
     if(canMakeOrder()){
         ordersId.push_back(orderId);
