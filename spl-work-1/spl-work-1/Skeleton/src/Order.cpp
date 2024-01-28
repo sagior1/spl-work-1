@@ -88,7 +88,7 @@ string const Order:: toString() const{
     return orderStatus;
 }
 
-string orderStatusToString(OrderStatus status) {
+string Order::orderStatusToString(OrderStatus status) {
         if(status == OrderStatus::PENDING){
             return "PENDING";}
         if (status== OrderStatus::COLLECTING){
