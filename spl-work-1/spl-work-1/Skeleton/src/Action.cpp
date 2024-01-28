@@ -30,6 +30,51 @@ string BaseAction:: getErrorMsg() const{
 void BaseAction:: complete(){
     status = ActionStatus::COMPLETED;
 }
+
+//close
+Close::Close(){}
+
+void Close ::act(WareHouse &wareHouse){
+    wareHouse.printAllOrders();
+    wareHouse.close();
+    wareHouse.~WareHouse(); 
+    delete backup;
+    complete();
+    wareHouse.addAction(this);
+    
+}
+
+
+Close *Close::clone() const {
+    return new Close(*this);
+}
+
+string Close::toString() const{
+    string output = "WareHouse is closed!";
+    return output;
+}
+
+
+//simulate step
+SimulateStep::SimulateStep(int numOfSteps) : numOfSteps(numOfSteps){}
+
+void SimulateStep::act(WareHouse &wareHouse) {
+    for(int i=0; i < numOfSteps; i++){
+        wareHouse.step();
+    }
+    complete();
+    wareHouse.addAction(this);
+}
+
+SimulateStep *SimulateStep::clone() const {
+    return new SimulateStep(*this);
+}
+
+string SimulateStep::toString() const{
+    string output = std::to_string(numOfSteps) + "actions completed";
+    return output;
+}
+
 //AddOrder  
 AddOrder::AddOrder(const int customerId) : customerId(customerId){}
 
