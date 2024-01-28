@@ -4,7 +4,9 @@
 #include <vector>
 
 Customer:: Customer(int id, const string &name, int locationDistance, int maxOrders)
-    : id(id), name(name), locationDistance(locationDistance), maxOrders(maxOrders),ordersId() { }
+    : id(id), name(name), locationDistance(locationDistance), maxOrders(maxOrders),ordersId(),ordersLeft(maxOrders) { 
+        std::cout<<"customer maxordEs "+std::to_string(maxOrders);
+    }
 
 const string &Customer:: getName() const{
     return name;
@@ -22,7 +24,8 @@ int Customer:: getNumOrders() const{
     return ordersId.size();
 }
 bool Customer:: canMakeOrder() const{
-    return (static_cast<int>(ordersId.size())<maxOrders);
+    std::cout<<"\n can make order? " + std::to_string(ordersLeft);
+    return (ordersLeft>0);
 }
  const vector<int> &Customer:: getOrdersIds() const{
     return ordersId;
@@ -30,6 +33,7 @@ bool Customer:: canMakeOrder() const{
  int Customer:: addOrder(int orderId){
     if(canMakeOrder()){
         ordersId.push_back(orderId);
+        ordersLeft--;
         return orderId;
     }
     else
