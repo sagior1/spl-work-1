@@ -87,3 +87,16 @@ string const Order:: toString() const{
                         "\n Driver: " + to_string(driverId);
     return orderStatus;
 }
+
+string orderStatusToString(OrderStatus status) {
+        if(status == OrderStatus::PENDING){
+            return "PENDING";}
+        if (status== OrderStatus::COLLECTING){
+            return "COLLECTING";}
+        if (status == OrderStatus::DELIVERING){
+            return "DELIVERING";}
+        if (status == OrderStatus::COMPLETED){
+            return "COMPLETED";}
+        else
+            return "Unknown OrderStatus";
+}
