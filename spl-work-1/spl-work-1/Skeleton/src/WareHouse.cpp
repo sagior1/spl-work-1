@@ -110,6 +110,7 @@ void WareHouse:: start(){
 void WareHouse::addOrder(Order* order){
     pendingOrders.push_back(order);
     ordersCounter++;
+    cout<<"\n inside warehouse.cpp we tried to add order by pushing it to pending orders";
 }
 void WareHouse:: addAction(BaseAction* action){
     actionsLog.push_back(action);
