@@ -1,4 +1,6 @@
 #include "../include/WareHouse.h"
+#include "../include/Action.h"
+
 #include <iostream>
 
 using namespace std;
@@ -15,20 +17,24 @@ int main(int argc, char** argv){
     //tests
     
     
-    string configurationFile = "C:\\Users\\rotem\\rotem\\SPLwork1\\configFileExample.txt";
+    string configurationFile = "/home/users/bsc/sagior/Downloads/configFileExample.txt";
     //string configurationFile = argv[1];
     WareHouse wareHouse(configurationFile);
     wareHouse.start();
-    
-    //tests
+        //tests
+    AddOrder o1(0);
+    AddOrder o2(0);
+    AddOrder o3(0);
     PrintCustomerStatus customerMoshe(0);
-    Order* o1 = new Order(1, 0, 3);
-    Order* o2 = new Order(2, 0, 3);
-    Order* o3 = new Order(3, 0, 3);
-    wareHouse.addOrder(o1);
-    wareHouse.addOrder(o2);
-    wareHouse.addOrder(o3);
-    customerMoshe.act(&wareHouse);
+    o1.act(wareHouse);
+    o2.act(wareHouse);
+    customerMoshe.act(wareHouse);
+
+    PrintOrderStatus pos(0);
+    pos.act(wareHouse);
+    // o3.act(wareHouse);
+    // customerMoshe.act(wareHouse);
+
     //here the program should throw an error because the first customer has only 2 orders (moshe)
     cout << "\n good" << endl;
     
