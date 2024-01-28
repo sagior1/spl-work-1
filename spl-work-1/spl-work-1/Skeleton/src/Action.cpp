@@ -38,6 +38,8 @@ void AddOrder::act(WareHouse &wareHouse){
     int customer_distance = customer1.getCustomerDistance();
     Order *order1 =new Order(wareHouse.getOrderCounter(), customerId, customer_distance);
     if(customer1.canMakeOrder()){
+        cout<<"\n inside AddOrder in action.cpp the customer could make order and we are checking if he can add it \n";
+        customer1.addOrder(order1->getId());
         wareHouse.addOrder(order1);
         complete();
     }
@@ -95,15 +97,15 @@ string AddCustomer::toString() const{
 PrintCustomerStatus:: PrintCustomerStatus(int cID):customerId(cID){}
 
 void PrintCustomerStatus::act(WareHouse &wareHouse) {
+        cout<<"\n entered printCustomerStatus in Action.cpp ";
         Customer *currentCustomer = &wareHouse.getCustomer(customerId);
         if(currentCustomer->getId()==-1){
             error("Customer Doesn't exist");
         }
         else{
-            cout <<"CustomerID:" <<currentCustomer->getId();
+            cout<<"\n";
             vector<int> orderIDS = currentCustomer->getOrdersIds();
             for(int orderID: orderIDS){
-                cout<<"OrderID: "<< orderID;
                 Order o1=wareHouse.getOrder(orderID);
                 if(o1.getStatus()==OrderStatus::PENDING){
                     cout<<"OrderStatus: Pending";
@@ -117,7 +119,7 @@ void PrintCustomerStatus::act(WareHouse &wareHouse) {
                 if(o1.getStatus()==OrderStatus::COLLECTING){
                     cout<<"OrderStatus: Collecting";
                 }
-            cout<< "numOrdersLeft: "<<currentCustomer->getMaxOrders() - currentCustomer->getNumOrders();
+            cout<< " numOrdersLeft: "<<currentCustomer->getMaxOrders() - currentCustomer->getNumOrders();
             }
             complete();
         }
