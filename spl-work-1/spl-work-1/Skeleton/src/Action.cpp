@@ -103,24 +103,25 @@ void PrintCustomerStatus::act(WareHouse &wareHouse) {
             error("Customer Doesn't exist");
         }
         else{
-            cout<<"\n";
             vector<int> orderIDS = currentCustomer->getOrdersIds();
             for(int orderID: orderIDS){
+                cout<<"\n orderId: "<< std::to_string(orderID);
+
                 Order o1=wareHouse.getOrder(orderID);
                 if(o1.getStatus()==OrderStatus::PENDING){
-                    cout<<"OrderStatus: Pending";
+                    cout<<" OrderStatus: Pending";
                 }
                 if(o1.getStatus()==OrderStatus::COMPLETED){
-                    cout<<"OrderStatus: Completed";
+                    cout<<" OrderStatus: Completed";
                 }
                 if(o1.getStatus()==OrderStatus::DELIVERING){
-                    cout<<"OrderStatus: Delivering";
+                    cout<<" OrderStatus: Delivering";
                 }
                 if(o1.getStatus()==OrderStatus::COLLECTING){
-                    cout<<"OrderStatus: Collecting";
+                    cout<<" OrderStatus: Collecting";
                 }
-            cout<< " numOrdersLeft: "<<currentCustomer->getMaxOrders() - currentCustomer->getNumOrders();
             }
+            cout<< " numOrdersLeft: "<<std::to_string(currentCustomer->getOrdersLeft());
             complete();
         }
     
