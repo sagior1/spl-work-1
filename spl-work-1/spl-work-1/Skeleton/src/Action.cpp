@@ -90,6 +90,7 @@ void AddOrder::act(WareHouse &wareHouse){
     }
     else {
         error("There is no customer with customerID=" + to_string(customerId));
+        cout<<this->toString();
     } 
     wareHouse.addAction(this);
 } 
@@ -146,6 +147,7 @@ void PrintCustomerStatus::act(WareHouse &wareHouse) {
         Customer *currentCustomer = &wareHouse.getCustomer(customerId);
         if(currentCustomer->getId()==-1){
             error("Customer Doesn't exist");
+            cout<<this->toString();
         }
         else{
             vector<int> orderIDS = currentCustomer->getOrdersIds();
@@ -198,6 +200,7 @@ void PrintVolunteerStatus:: act(WareHouse &wareHouse){
     Volunteer *v=&wareHouse.getVolunteer(volunteerId);
     if(v->getId()==-1){
         error("Volunteer Doesn't exist");
+        cout<<this->toString();
     }
     else{
         cout<< v->toString();
@@ -227,6 +230,7 @@ void PrintOrderStatus::act(WareHouse &wareHouse){
     Order o1 = wareHouse.getOrder(orderId);
     if(o1.getId()==-1){
         error("Order doesn't exist");
+        cout<<this->toString();
     }
     else{
         complete();
