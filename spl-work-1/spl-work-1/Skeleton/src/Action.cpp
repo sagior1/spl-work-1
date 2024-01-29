@@ -185,7 +185,7 @@ string PrintCustomerStatus:: toString() const{
     }
     else{
         s1+="status: Error \n";
-        s1+= "errorMsg: " + getErrorMsg()+"\n";
+        s1+= getErrorMsg()+"\n";
     }
     s1+= "customerID: "+ std::to_string(customerId) + "\n";
     return s1;
@@ -218,7 +218,7 @@ string PrintVolunteerStatus:: toString() const{
     }
     else{
         s1+="status: Error \n";
-        s1+= "errorMsg: " + getErrorMsg()+"\n";
+        s1+= getErrorMsg()+"\n";
     }
     s1+="\n" ;
     s1+= "VolunteerID: "+ std::to_string(volunteerId) + "\n";
@@ -275,7 +275,7 @@ string PrintOrderStatus:: toString() const{
     }
     else{
         s1+="status: Error \n";
-        s1+= "errorMsg: " + getErrorMsg()+"\n";
+        s1+= getErrorMsg()+"\n";
     }
     s1+="\n" ;
     s1+= "OrderID: "+ std::to_string(orderId) + "\n";
