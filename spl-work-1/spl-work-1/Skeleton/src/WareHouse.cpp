@@ -161,6 +161,43 @@ WareHouse& WareHouse::operator=(WareHouse&& other) noexcept {
 void WareHouse:: start(){
     open();
     cout<<"Warehouse is open!";
+    string command;
+    int num;
+    while (isOpen){
+        cout << "\n Insert your next command:" << endl;
+        string input;
+        cin >> input;
+        std::istringstream input2(input);
+        input2 >> command >> num;
+        if (command == "order"){
+            AddOrder o1(num);
+            o1.act(*this);
+        }
+        else if (command == "orderStatus"){
+            PrintOrderStatus p1(num);
+            p1.act(*this);
+        }
+        else if (command == "step"){
+            SimulateStep s1(num);
+            s1.act(*this);
+        }
+        else if (command == "volunteerStatus"){
+            SimulateStep v1(num);
+            v1.act(*this);
+        }
+        else if (command == "customerStatus"){
+            SimulateStep c1(num);
+            c1.act(*this);
+        }
+        else if (command == "log"){
+            SimulateStep c1(num);
+            c1.act(*this);
+        }  
+        else if (command == "close"){
+            SimulateStep clo1(num);
+            clo1.act(*this);
+        }                
+    }
 }
 void WareHouse::addOrder(Order* order){
     pendingOrders.push_back(order);
