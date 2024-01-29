@@ -249,18 +249,18 @@ void PrintOrderStatus::act(WareHouse &wareHouse){
             cout<<"OrderStatus: Collecting";
         }
         cout<< "\n";
-        cout<<"CustomerId: "+std::to_string(o1.getCustomerId());
+        cout<<" CustomerId: "+std::to_string(o1.getCustomerId());
         if(o1.getCollectorId()==-1){
-            cout<<"CollectorID: None";
+            cout<<" CollectorID: None ";
         }
         else{
-            cout<<"CollectorID: "+std::to_string(o1.getCollectorId());
+            cout<<" CollectorID: "+std::to_string(o1.getCollectorId());
         }
         if(o1.getDriverId()==-1){
-            cout<<"DriverID: None";
+            cout<<" DriverID: None ";
         }
         else{
-            cout<<"DriverID: "+std::to_string(o1.getDriverId());
+            cout<<" DriverID: "+std::to_string(o1.getDriverId());
         }
     }
     wareHouse.addAction(this);
