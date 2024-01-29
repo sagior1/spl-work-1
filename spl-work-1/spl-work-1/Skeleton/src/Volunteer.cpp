@@ -160,7 +160,6 @@ int DriverVolunteer:: getDistancePerStep() const{
     return distancePerStep;
 }
 bool DriverVolunteer::decreaseDistanceLeft(){
-    distanceLeft--;
     return (distanceLeft<=0);
 }
 bool DriverVolunteer:: hasOrdersLeft() const{
