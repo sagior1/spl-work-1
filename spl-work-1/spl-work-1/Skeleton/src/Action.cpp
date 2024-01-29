@@ -269,16 +269,16 @@ PrintOrderStatus* PrintOrderStatus::clone() const {
     return new PrintOrderStatus(*this);
 }
 string PrintOrderStatus:: toString() const{
-    string s1="";
+    string s1=" PrintOrderStatus ";
     if(getStatus()==ActionStatus::COMPLETED){
-        s1+="status: Completed";
+        s1+="status: Completed ";
     }
     else{
         s1+="status: Error \n";
         s1+= getErrorMsg()+"\n";
     }
     s1+="\n" ;
-    s1+= "OrderID: "+ std::to_string(orderId) + "\n";
+    s1+= " OrderID: "+ std::to_string(orderId) + "\n";
     return s1;
 }
 //PrintActionsLog
@@ -286,7 +286,7 @@ string PrintOrderStatus:: toString() const{
 PrintActionsLog::PrintActionsLog(){}
 void PrintActionsLog::act(WareHouse &wareHouse){
     for (BaseAction *ba : wareHouse.getActions()) {
-            cout<<ba->toString();
+            cout<<"\n"<<ba->toString();
     }
     complete();
     wareHouse.addAction(this);
@@ -295,7 +295,7 @@ PrintActionsLog* PrintActionsLog::clone() const {
     return new PrintActionsLog(*this);
 }
 string PrintActionsLog:: toString() const{
-    return "PrintActionLog: Completed";
+    return " PrintActionLog: Completed ";
 }
 
 //BackupWareHouse
