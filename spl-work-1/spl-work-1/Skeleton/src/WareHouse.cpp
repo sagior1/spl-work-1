@@ -102,6 +102,61 @@ WareHouse::WareHouse(const WareHouse& other)
     for(auto *customer : other.customers)
         customers.push_back(customer->clone());
 }
+// Move constructor
+WareHouse::WareHouse(WareHouse&& other) noexcept
+    : isOpen(std::move(other.isOpen)),
+      actionsLog(std::move(other.actionsLog)),
+      volunteers(std::move(other.volunteers)),
+      pendingOrders(std::move(other.pendingOrders)),
+      inProcessOrders(std::move(other.inProcessOrders)),
+      completedOrders(std::move(other.completedOrders)),
+      customers(std::move(other.customers)),
+      customerCounter(std::move(other.customerCounter)),
+      volunteerCounter(std::move(other.volunteerCounter)),
+      ordersCounter(std::move(other.ordersCounter)) {
+    // Invalidate the data in the source object so it won't be used again
+    other.actionsLog.clear();
+    other.volunteers.clear();
+    other.pendingOrders.clear();
+    other.inProcessOrders.clear();
+    other.completedOrders.clear();
+    other.customers.clear();
+}
+
+// Move assignment operator
+WareHouse& WareHouse::operator=(WareHouse&& other) noexcept {
+    if (this != &other) {
+        // Free up any resources that 'this' is holding before taking ownership of 'other'
+        actionsLog.clear();
+        volunteers.clear();
+        pendingOrders.clear();
+        inProcessOrders.clear();
+        completedOrders.clear();
+        customers.clear();
+
+        // Transfer ownership of 'other' to 'this'
+        isOpen = std::move(other.isOpen);
+        actionsLog = std::move(other.actionsLog);
+        volunteers = std::move(other.volunteers);
+        pendingOrders = std::move(other.pendingOrders);
+        inProcessOrders = std::move(other.inProcessOrders);
+        completedOrders = std::move(other.completedOrders);
+        customers = std::move(other.customers);
+        customerCounter = std::move(other.customerCounter);
+        volunteerCounter = std::move(other.volunteerCounter);
+        ordersCounter = std::move(other.ordersCounter);
+
+        // Invalidate the data in 'other'
+        other.actionsLog.clear();
+        other.volunteers.clear();
+        other.pendingOrders.clear();
+        other.inProcessOrders.clear();
+        other.completedOrders.clear();
+        other.customers.clear();
+    }
+    return *this;
+}
+
 
 void WareHouse:: start(){
     open();
