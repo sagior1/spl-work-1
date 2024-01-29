@@ -268,11 +268,14 @@ void WareHouse:: pendingOrdersStep(){
         for(Volunteer *currVol: volunteers){
             if(currVol->canTakeOrder(*currOrder)){
                 currVol->acceptOrder(*currOrder);
+                
                 if(currOrder->getStatus()==OrderStatus::PENDING){
                     currOrder->setStatus(OrderStatus::COLLECTING);
+                    currOrder->setCollectorId(currVol->getId());
                 }
                 else{
                     currOrder->setStatus(OrderStatus::DELIVERING);
+                    currOrder->setDriverId(currVol->getId());
                 }
                 moveBetweenVectors(pendingOrders,inProcessOrders,*currOrder);
                 break;
