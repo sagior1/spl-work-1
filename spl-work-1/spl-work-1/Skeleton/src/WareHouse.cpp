@@ -159,8 +159,8 @@ WareHouse& WareHouse::operator=(WareHouse&& other) noexcept {
 
 
 void WareHouse:: start(){
-    open();
-    cout<<"Warehouse is open!";
+     open();
+     cout<<"Warehouse is open!";
     string command;
     int num;
     while (isOpen){
@@ -198,7 +198,7 @@ void WareHouse:: start(){
             clo1.act(*this);
         }                
     }
-}
+ }
 void WareHouse::addOrder(Order* order){
     pendingOrders.push_back(order);
     ordersCounter++;
@@ -309,12 +309,15 @@ void WareHouse:: pendingOrdersStep(){
                 if(currOrder->getStatus()==OrderStatus::PENDING){
                     currOrder->setStatus(OrderStatus::COLLECTING);
                     currOrder->setCollectorId(currVol->getId());
+                    moveBetweenVectors(pendingOrders,inProcessOrders,*currOrder);
                 }
                 else{
                     currOrder->setStatus(OrderStatus::DELIVERING);
                     currOrder->setDriverId(currVol->getId());
+                    cout<<"\n setting driver \n";
+                    moveBetweenVectors(pendingOrders,inProcessOrders,*currOrder);
+
                 }
-                moveBetweenVectors(pendingOrders,inProcessOrders,*currOrder);
                 break;
             }
         }
@@ -408,10 +411,9 @@ void WareHouse::FileTOCode(string configFilePath){
 }
 
 //***NEW****
-void WareHouse::moveBetweenVectors(vector<Order*> vectorToDelete, vector<Order*> vectorToInsert, Order order1){
+void WareHouse::moveBetweenVectors(vector<Order*>& vectorToDelete, vector<Order*>& vectorToInsert, Order& order1){
     Order* pOrder = &order1;
     vectorToInsert.push_back(pOrder);
-    
     auto iter = vectorToDelete.begin();
     while (iter != vectorToDelete.end()) {
         if (*iter == pOrder) {
@@ -441,31 +443,32 @@ void WareHouse:: deleteSpecificVolenteer(Volunteer* volToDelete ){
 
 void WareHouse::processOrdersStep() {
 
-for(auto *currOrder : inProcessOrders){
-    if (currOrder->getStatus() == OrderStatus::COLLECTING){
-        int volId = currOrder->getCollectorId();
-        Volunteer &Volenteer1 = getVolunteer(volId);
-        Volenteer1.step();
-        if(!(Volenteer1.isBusy())){
-            moveBetweenVectors(inProcessOrders, pendingOrders, *currOrder);
+    for(auto *currOrder : inProcessOrders){
+        if (currOrder->getStatus() == OrderStatus::COLLECTING){
+            int volId = currOrder->getCollectorId();
+            Volunteer &Volenteer1 = getVolunteer(volId);
+            Volenteer1.step();
+            if(!(Volenteer1.isBusy())){
+                moveBetweenVectors(inProcessOrders, pendingOrders, *currOrder);
+            }
+            if (!(Volenteer1.hasOrdersLeft())){
+                deleteSpecificVolenteer(&Volenteer1);
+            }
         }
-        if (!(Volenteer1.hasOrdersLeft())){
-            deleteSpecificVolenteer(&Volenteer1);
+        if (currOrder->getStatus() == OrderStatus::DELIVERING){ 
+        int volId = currOrder->getDriverId();
+        Volunteer &Volenteer2 = getVolunteer(volId);
+        cout<<"\n gonna do step() for driver inside processordersstep inside warehouse \n";
+        Volenteer2.step();
+        if(!(Volenteer2.isBusy())){
+                currOrder->setStatus(OrderStatus::COMPLETED);
+                moveBetweenVectors(inProcessOrders, completedOrders, *currOrder);
+            }
+            if (!(Volenteer2.hasOrdersLeft())){
+                deleteSpecificVolenteer(&Volenteer2);
+            }
         }
-    }
-    
-    else {
-       int volId = currOrder->getCollectorId();
-       Volunteer &Volenteer2 = getVolunteer(volId);
-       Volenteer2.step();
-       if(!(Volenteer2.isBusy())){
-            moveBetweenVectors(inProcessOrders, completedOrders, *currOrder);
-        }
-        if (!(Volenteer2.hasOrdersLeft())){
-            deleteSpecificVolenteer(&Volenteer2);
-        }
-    }
-}    
+    }    
     
 
 }
