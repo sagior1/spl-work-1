@@ -136,10 +136,10 @@ string AddCustomer::toString() const{
     string s1;
     s1+="Customer " + customerName;
     if(customerType==CustomerType::Soldier){
-        s1+=" Soldier ";
+        s1+="Soldier ";
     }
     else{
-        s1+=" Civilian ";
+        s1+="Civilian ";
     }
     s1+=distance +" "+ maxOrders;
     return s1;
@@ -162,19 +162,19 @@ void PrintCustomerStatus::act(WareHouse &wareHouse) {
 
                 Order o1=wareHouse.getOrder(orderID);
                 if(o1.getStatus()==OrderStatus::PENDING){
-                    cout<<" OrderStatus: Pending";
+                    cout<<"OrderStatus: Pending";
                 }
                 if(o1.getStatus()==OrderStatus::COMPLETED){
-                    cout<<" OrderStatus: Completed";
+                    cout<<"OrderStatus: Completed";
                 }
                 if(o1.getStatus()==OrderStatus::DELIVERING){
-                    cout<<" OrderStatus: Delivering";
+                    cout<<"OrderStatus: Delivering";
                 }
                 if(o1.getStatus()==OrderStatus::COLLECTING){
-                    cout<<" OrderStatus: Collecting";
+                    cout<<"OrderStatus: Collecting";
                 }
             }
-            cout<< " numOrdersLeft: "<<std::to_string(currentCustomer->getOrdersLeft());
+            cout<< "\nnumOrdersLeft: "<<std::to_string(currentCustomer->getOrdersLeft());
             complete();
         }
     
