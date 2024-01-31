@@ -187,30 +187,48 @@ void WareHouse:: start(){
      open();
      cout<<"Warehouse is open!";
     string command;
-    int num;
+    //int num, maxOrders;
     while (isOpen){
         cout << "\nInsert your next command:" << endl;
-        string input;
+        string input, command;
         getline(cin, input);  // Read the entire line of input
         std::istringstream input2(input);
-        input2 >> command >> num;
+        input2 >> command;
+        if (command == "customer"){
+            string type, name;
+            int num, maxOrders;
+            input2 >> name >> type >> num >> maxOrders;
+            cout << name << ", " << type << ", " << to_string(num) << ", " << to_string(maxOrders) <<endl;
+            AddCustomer *c1= new AddCustomer(name, type, num, maxOrders);
+            c1->act(*this);
+        }
         if (command == "order"){
+            int num;
+            input2 >> num;
             AddOrder *o1= new AddOrder(num);
             o1->act(*this);
         }
         else if (command == "orderStatus"){
+            int num;
+            input2 >> num;
             PrintOrderStatus *p1=new PrintOrderStatus(num);
             p1->act(*this);
         }
         else if (command == "step"){
+            int num;
+            input2 >> num;
             SimulateStep *s1=new SimulateStep(num);
             s1->act(*this);
         }
         else if (command == "volunteerStatus"){
-            PrintVolunteerStatus *v1= new PrintVolunteerStatus(num);
+            int id;
+            input2 >> id;
+            PrintVolunteerStatus *v1= new PrintVolunteerStatus(id);
             v1->act(*this);
         }
         else if (command == "customerStatus"){
+            int num;
+            input2 >> num;
             PrintCustomerStatus *c1=new PrintCustomerStatus(num);
             c1->act(*this);
         }
