@@ -164,7 +164,7 @@ void WareHouse:: start(){
     string command;
     int num;
     while (isOpen){
-        cout << "\n Insert your next command:" << endl;
+        cout << "\nInsert your next command:" << endl;
         string input;
         getline(cin, input);  // Read the entire line of input
         std::istringstream input2(input);
@@ -196,13 +196,20 @@ void WareHouse:: start(){
         else if (command == "close"){
             Close cl1;
             cl1.act(*this);
-        }                
+        }
+        else if (command == "backup"){
+            BackupWareHouse bu1;
+            bu1.act(*this);
+        }
+        else if (command == "restore"){
+            RestoreWareHouse res1;
+            res1.act(*this);
+        }                 
     }
  }
 void WareHouse::addOrder(Order* order){
     pendingOrders.push_back(order);
     ordersCounter++;
-    cout<<"\n inside warehouse.cpp we tried to add order by pushing it to pending orders";
 }
 void WareHouse:: addAction(BaseAction* action){
     actionsLog.push_back(action);
@@ -357,7 +364,6 @@ void WareHouse::FileTOCode(string configFilePath){
         //recognize the type of the person (costumer / volenteer) and also the inner types (collector / limited_collector exc) 
         //inside the "if", seperate the line to the relevant variabels and initiate the person in the wearhouse
         if (isExist(line2, "solider")){
-            cout << "solider"<< endl;
              std::istringstream checked_line(line2);
              checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
              SoldierCustomer* SoliderCustomer1 = new SoldierCustomer(getcustomerCounter(),name, customer_distance, max_orders);
@@ -365,7 +371,6 @@ void WareHouse::FileTOCode(string configFilePath){
              //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
         }
         if (isExist(line2, "customer")){
-            cout << "customer"<< endl;
              std::istringstream checked_line(line2);
              checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
              CivilianCustomer* CivilianCustomer1 = new CivilianCustomer(getcustomerCounter(), name, customer_distance, max_orders);
@@ -373,23 +378,22 @@ void WareHouse::FileTOCode(string configFilePath){
              //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
         }
         else if (isExist(line2, "limited_collector")){
-            cout << "limited_collector" << endl;
+            cout<<"\n" <<volunteerCounter<< ", "<< "limited_collector" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_coolDown >> max_orders;
             LimitedCollectorVolunteer* LimitedCollectorVolunteer1 = new LimitedCollectorVolunteer(volunteerCounter ,name, volunteer_coolDown ,max_orders);
             addVolunteer(LimitedCollectorVolunteer1);
-            //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << ", " << max_orders << endl;
+            cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << ", " << max_orders << endl;
         }
         else if (isExist(line2, "collector")){
-            cout << "collector" << endl;
+            cout <<volunteerCounter<< ", "<< "collector" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_coolDown;
             CollectorVolunteer* CollectorVolunteer1 = new CollectorVolunteer(volunteerCounter, name, volunteer_coolDown);
             addVolunteer(CollectorVolunteer1);
-            //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << endl;
+            cout <<"\n"<< volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << endl;
         }
         else if (isExist(line2, "limited_driver")){
-            cout << "limited_driver" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_maxDistance >> distance_per_step >> max_orders;
             LimitedDriverVolunteer* LimitedDriverVolunteer1= new LimitedDriverVolunteer(volunteerCounter, name, volunteer_maxDistance, distance_per_step, max_orders);
@@ -397,7 +401,6 @@ void WareHouse::FileTOCode(string configFilePath){
             //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_maxDistance << ", " << distance_per_step << ", " << max_orders << endl;
         }
         else if (isExist(line2, "driver")){
-            cout << "driver" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_maxDistance >> distance_per_step;
             DriverVolunteer* DriverVolunteer1 = new DriverVolunteer(volunteerCounter, name, volunteer_maxDistance, distance_per_step);
@@ -458,7 +461,6 @@ void WareHouse::processOrdersStep() {
         if (currOrder->getStatus() == OrderStatus::DELIVERING){ 
         int volId = currOrder->getDriverId();
         Volunteer &Volenteer2 = getVolunteer(volId);
-        cout<<"\n gonna do step() for driver inside processordersstep inside warehouse \n";
         Volenteer2.step();
         if(!(Volenteer2.isBusy())){
                 currOrder->setStatus(OrderStatus::COMPLETED);
