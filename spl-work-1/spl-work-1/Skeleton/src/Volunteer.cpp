@@ -91,17 +91,20 @@ void CollectorVolunteer:: acceptOrder(const Order &order1){// i didnt take time 
     activeOrderId=order1.getId();
 }
 string CollectorVolunteer:: toString() const{
-    bool busy=(timeLeft!=0);
-    string s1= "name: " + getName() + "\n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(busy)+ "\n orderID: ";
-    if(busy){
-        s1+=activeOrderId;
+    string output = "VolunteerID: " + std::to_string(getId()) +
+                    "\nisBusy: " + (isBusy() ? "TRUE" : "FALSE") +
+                    "\nOrderId: ";
+    if(isBusy()){
+        output+=to_string(activeOrderId);
+        output+="\nTimeLeft: " + to_string(getTimeLeft());
     }
     else{
-        s1+="None";
+        output+="None";
+        output+="\nTimeLeft: None";
     }
-    s1+=" ordersLeft: No Limit";
+    output+="\nordersLeft: No Limit\n";
 
-    return s1;
+    return output;
 }
 
 //LimitedCollectorVolunteer
@@ -135,16 +138,20 @@ int LimitedCollectorVolunteer:: getNumOrdersLeft() const{
     return ordersLeft;
 }
 string LimitedCollectorVolunteer:: toString() const{ 
-    string s1= "name: " + getName() + "volunteerID: " + std::to_string(getId()) + " isBusy: " + std::to_string(isBusy())+ " orderID: ";
+    string output = "VolunteerID: " + std::to_string(getId()) +
+                    "\nisBusy: " + (isBusy() ? "TRUE" : "FALSE") +
+                    "\nOrderId: ";
     if(isBusy()){
-        s1+=activeOrderId;
+        output+=to_string(activeOrderId);
+        output+="\nTimeLeft: " + to_string(getTimeLeft());
     }
     else{
-        s1+="None";
+        output+="None";
+        output+="\nTimeLeft: None";
     }
-    s1+=" ordersLeft: "+std::to_string(getNumOrdersLeft());
+    output+="\nordersLeft: " + to_string(ordersLeft) + "\n";
 
-    return s1;
+    return output;
 }
 
 //driverVolunteer
@@ -189,16 +196,20 @@ void DriverVolunteer:: acceptOrder(const Order &order){
 }
 //add step here
 string DriverVolunteer:: toString() const{
-    string s1= "\n name: " + getName() + "\n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(isBusy())+ "\n orderID: ";
+    string output = "VolunteerID: " + std::to_string(getId()) +
+                    "\nisBusy: " + (isBusy() ? "TRUE" : "FALSE") +
+                    "\nOrderId: ";
     if(isBusy()){
-        s1+=activeOrderId;
+        output+=to_string(activeOrderId);
+        output+="\nDistanceLeft: " + to_string(getDistanceLeft());
     }
     else{
-        s1+="None";
+        output+="None";
+        output+="\nDistanceLeft: None";
     }
-    s1+=" ordersLeft: No Limit";
+    output+="\nordersLeft: No Limit\n";
 
-    return s1;
+    return output;
 }
 
 //LimitedDriverVolunteer
@@ -228,13 +239,19 @@ void LimitedDriverVolunteer:: acceptOrder(const Order &order){
     ordersLeft--; // Decrease the number of orders left
 }
 string LimitedDriverVolunteer:: toString() const{
-    string s1= "name: " + getName() + " \n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(isBusy())+ "\n orderID: ";
+    string output = "VolunteerID: " + std::to_string(getId()) +
+                    "\nisBusy: " + (isBusy() ? "TRUE" : "FALSE") +
+                    "\nOrderId: ";
     if(isBusy()){
-        s1+=activeOrderId;
+        output+=to_string(activeOrderId);
+        output+="\nDistanceLeft: " + to_string(getDistanceLeft());
     }
     else{
-        s1+="None";
+        output+="None";
+        output+="\nDistanceLeft: None";
     }
-    s1+="\n ordersLeft: "+ std::to_string(getNumOrdersLeft());
-    return s1;
+    output+="\nordersLeft: " + to_string(getNumOrdersLeft()) + "\n";
+
+    return output;
 }
+
