@@ -36,6 +36,8 @@ Close::Close(){}
 
 void Close ::act(WareHouse &wareHouse){
     wareHouse.printAllOrders();
+    complete();
+    wareHouse.addAction(this);
     wareHouse.close();
 }
 
@@ -81,7 +83,7 @@ void AddOrder::act(WareHouse &wareHouse){
     }
     else{
         int customer_distance = customer1.getCustomerDistance();
-        Order *order1 =new Order(wareHouse.getOrderCounter(), customerId, customer_distance);
+        Order *order1 = new Order(wareHouse.getOrderCounter(), customerId, customer_distance);
         if(customer1.canMakeOrder()){
             customer1.addOrder(order1->getId());
             wareHouse.addOrder(order1);
@@ -257,9 +259,7 @@ string PrintOrderStatus:: toString() const{
 PrintActionsLog::PrintActionsLog(){}
 void PrintActionsLog::act(WareHouse &wareHouse){
     
-    for (BaseAction *ba : wareHouse.getActions()) {
-            cout<<"\n"<<ba->toString();
-    }
+    wareHouse.printAllActions();
     
     complete();
     wareHouse.addAction(this);
@@ -274,8 +274,14 @@ string PrintActionsLog:: toString() const{
 
 //BackupWareHouse
 BackupWareHouse::BackupWareHouse(){}
+
 void BackupWareHouse::act(WareHouse &wareHouse){
-    backup=new WareHouse(wareHouse);
+    if(backup!=nullptr){
+    	delete backup;
+    	backup = nullptr;
+    }
+
+    backup = new WareHouse(wareHouse);
     complete();
     wareHouse.addAction(this);
 }
@@ -294,9 +300,11 @@ void RestoreWareHouse::act(WareHouse &wareHouse){
         error("No backup available");
         cout<<this->toString();
     }
-    else {
-        wareHouse=WareHouse(*backup);
+    else{
+        wareHouse=*backup;
     }
+    complete();
+    wareHouse.addAction(this);
 }
 
 RestoreWareHouse* RestoreWareHouse::clone() const {
