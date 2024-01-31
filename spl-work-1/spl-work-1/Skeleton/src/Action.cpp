@@ -37,8 +37,6 @@ Close::Close(){}
 void Close ::act(WareHouse &wareHouse){
     wareHouse.printAllOrders();
     wareHouse.close();
-    //delete &wareHouse;
-    //delete backup;    
 }
 
 
@@ -68,7 +66,7 @@ SimulateStep *SimulateStep::clone() const {
 }
 
 string SimulateStep::toString() const{
-    string output = std::to_string(numOfSteps) + " steps completed";
+    string output ="simulateStep "+ std::to_string(numOfSteps) + " COMPLETED";
     return output;
 }
 
@@ -79,7 +77,7 @@ void AddOrder::act(WareHouse &wareHouse){
     Customer &customer1 = (wareHouse.getCustomer(customerId));
     if(customer1.getId()==-1){
         error("Cannot place this order");
-        cout<<this->toString();
+        cout<<getErrorMsg();
     }
     else{
         int customer_distance = customer1.getCustomerDistance();
@@ -91,19 +89,19 @@ void AddOrder::act(WareHouse &wareHouse){
         }
         else {
             error("Cannot place this order");
-            cout<<this->toString();
+            cout<<getErrorMsg();
         }
     } 
     wareHouse.addAction(this);
 } 
 
 string AddOrder:: toString() const{
-    string s1= "\n " ;
+    string s1= "order " + customerId ;
     if(getStatus() == ActionStatus::COMPLETED){
-        s1+="Completed";
+        s1+=" Completed";
     }
-    else{
-        s1+="Error: Cannot make this order";
+    else{ 
+        s1+=" Error";
     }
     return s1;
 }
@@ -123,9 +121,9 @@ void AddCustomer::act(WareHouse &wareHouse) {
     int idnew = wareHouse.getcustomerCounter() + 1;
     Customer* newCustomer;
     if((int)customerType==0)// i dont know if this is ok
-        newCustomer = new SoldierCustomer(idnew, customerName, distance, maxOrders);//we need to check how to delete this in the end becuase its in the heap
+        newCustomer = new SoldierCustomer(idnew, customerName, distance, maxOrders);
     else
-        newCustomer = new CivilianCustomer(idnew, customerName, distance, maxOrders);//we need to check how to delete this in the end becuase its in the heap
+        newCustomer = new CivilianCustomer(idnew, customerName, distance, maxOrders);
     wareHouse.addCustomer(newCustomer);
     complete();
     wareHouse.addAction(this);
@@ -155,7 +153,7 @@ void PrintCustomerStatus::act(WareHouse &wareHouse) {
         Customer *currentCustomer = &wareHouse.getCustomer(customerId);
         if(currentCustomer->getId()==-1){
             error("Customer Doesn't exist");
-            cout<<this->toString();
+            cout<<"\n"<<getErrorMsg();
         }
         else{
             vector<int> orderIDS = currentCustomer->getOrdersIds();
@@ -187,15 +185,13 @@ PrintCustomerStatus* PrintCustomerStatus::clone() const {
     return new PrintCustomerStatus(*this);
 }
 string PrintCustomerStatus:: toString() const{
-    string s1="PrintCustomerStatus ";
+    string s1="CustomerStatus "+customerId;
     if(getStatus()==ActionStatus::COMPLETED){
-        s1+=" status: Completed ";
+        s1+=" Completed";
     }
     else{
-        s1+=" status: Error \n";
-        s1+= getErrorMsg()+"\n";
+        s1+=" Error";
     }
-    s1+= " customerID: "+ std::to_string(customerId);
     return s1;
 }
 
@@ -208,7 +204,7 @@ void PrintVolunteerStatus:: act(WareHouse &wareHouse){
     Volunteer *v=&wareHouse.getVolunteer(volunteerId);
     if(v->getId()==-1){
         error("Volunteer Doesn't exist");
-        cout<<this->toString();
+        cout<<"\n"<<getErrorMsg();
     }
     else{
         cout<< v->toString();
@@ -220,16 +216,13 @@ PrintVolunteerStatus* PrintVolunteerStatus::clone() const {
     return new PrintVolunteerStatus(*this);
 }
 string PrintVolunteerStatus:: toString() const{
-    string s1="PrintVolunteerStatus ";
+    string s1="volunteerStatus "+ volunteerId;
     if(getStatus()==ActionStatus::COMPLETED){
-        s1+="status: Completed";
+        s1+=" Completed";
     }
     else{
-        s1+="status: Error \n";
-        s1+= getErrorMsg()+"\n";
+        s1+=" Error";
     }
-    s1+="\n" ;
-    s1+= " VolunteerID: "+ std::to_string(volunteerId) + "\n";
     return s1;
 }
 //PrintOrderStatus
@@ -238,7 +231,7 @@ void PrintOrderStatus::act(WareHouse &wareHouse){
     Order o1 = wareHouse.getOrder(orderId);
     if(o1.getId()==-1){
         error("Order doesn't exist");
-        cout<<this->toString();
+        cout<<"\n"<<getErrorMsg();
     }
     else{
         complete();
@@ -250,32 +243,33 @@ PrintOrderStatus* PrintOrderStatus::clone() const {
     return new PrintOrderStatus(*this);
 }
 string PrintOrderStatus:: toString() const{
-    string s1="PrintOrderStatus ";
+    string s1="orderStatus "+ orderId;
     if(getStatus()==ActionStatus::COMPLETED){
-        s1+="status: Completed";
+        s1+=" Completed";
     }
     else{
-        s1+="status: Error ";
-        s1+= getErrorMsg();
+        s1+=" Error";
     }
-    s1+= " OrderID: "+ std::to_string(orderId) + "\n";
     return s1;
 }
 //PrintActionsLog
 
 PrintActionsLog::PrintActionsLog(){}
 void PrintActionsLog::act(WareHouse &wareHouse){
+    
     for (BaseAction *ba : wareHouse.getActions()) {
             cout<<"\n"<<ba->toString();
     }
+    
     complete();
     wareHouse.addAction(this);
+    cout<<"\n"<<toString();
 }
 PrintActionsLog* PrintActionsLog::clone() const {
     return new PrintActionsLog(*this);
 }
 string PrintActionsLog:: toString() const{
-    return " PrintActionLog: Completed ";
+    return "Log Completed ";
 }
 
 //BackupWareHouse
