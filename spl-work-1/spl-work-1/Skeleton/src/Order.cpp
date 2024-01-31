@@ -100,13 +100,13 @@ string const Order:: toString() const{
 
 string Order::orderStatusToString(OrderStatus status) {
         if(status == OrderStatus::PENDING){
-            return "PENDING";}
+            return "Pending";}
         if (status== OrderStatus::COLLECTING){
-            return "COLLECTING";}
+            return "Collecting";}
         if (status == OrderStatus::DELIVERING){
-            return "DELIVERING";}
+            return "Delivering";}
         if (status == OrderStatus::COMPLETED){
-            return "COMPLETED";}
+            return "Completed";}
         else
             return "Unknown OrderStatus";
 }
