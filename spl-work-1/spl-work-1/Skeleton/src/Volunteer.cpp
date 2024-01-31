@@ -92,7 +92,7 @@ void CollectorVolunteer:: acceptOrder(const Order &order1){// i didnt take time 
 }
 string CollectorVolunteer:: toString() const{
     string output = "VolunteerID: " + std::to_string(getId()) +
-                    "\nisBusy: " + (isBusy() ? "TRUE" : "FALSE") +
+                    "\nisBusy: " + (isBusy() ? "True" : "False") +
                     "\nOrderId: ";
     if(isBusy()){
         output+=to_string(activeOrderId);
