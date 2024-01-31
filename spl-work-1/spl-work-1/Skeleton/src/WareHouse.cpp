@@ -241,7 +241,7 @@ void WareHouse:: addVolunteer(Volunteer* newVolunteer){
 void WareHouse:: deleteVolunteer(int vID){
     for (auto it = volunteers.begin(); it != volunteers.end(); ++it) {
         if ((*it)->getId() == vID) {
-            delete *it; // Delete the dynamically allocated Volunteer
+            delete *it; 
             volunteers.erase(it); // Remove the pointer from the vector
             return; // Exit the function after deleting the volunteer
         }
@@ -250,8 +250,8 @@ void WareHouse:: deleteVolunteer(int vID){
 
 
 //getting a customer by ID
-Customer &WareHouse:: getCustomer(int cID) const{//maybe need here another return if we dont find the customer
-    static CivilianCustomer invalidCustomer(-1, "Invalid", 0, 0); // Represents an invalid customer
+Customer &WareHouse:: getCustomer(int cID) const{
+    static CivilianCustomer invalidCustomer(-1, "Invalid", 0, 0);
     for (auto *customer : customers) {
         if (customer->getId() == cID) {
             return *customer;
@@ -259,7 +259,7 @@ Customer &WareHouse:: getCustomer(int cID) const{//maybe need here another retur
     }
 
     return invalidCustomer; // Return the invalid customer if no match is found
-}//need to check if this hirtut is good
+}
 
 Volunteer &WareHouse:: getVolunteer(int vID) const{//maybe need here another return if we dont find the volunteer
     static CollectorVolunteer invalidVolunteer(-1,"Invalid",0);
@@ -332,7 +332,6 @@ void WareHouse:: pendingOrdersStep(){
                 else{
                     currOrder->setStatus(OrderStatus::DELIVERING);
                     currOrder->setDriverId(currVol->getId());
-                    cout<<"\n setting driver \n";
                     moveBetweenVectors(pendingOrders,inProcessOrders,*currOrder);
 
                 }
