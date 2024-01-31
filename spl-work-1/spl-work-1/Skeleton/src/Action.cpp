@@ -98,12 +98,12 @@ void AddOrder::act(WareHouse &wareHouse){
 } 
 
 string AddOrder:: toString() const{
-    string s1= "order " + customerId ;
+    string s1= "order " + std::to_string(customerId) ;
     if(getStatus() == ActionStatus::COMPLETED){
-        s1+=" Completed";
+        s1+=" COMPLETED";
     }
     else{ 
-        s1+=" Error";
+        s1+=" ERROR";
     }
     return s1;
 }
@@ -189,10 +189,10 @@ PrintCustomerStatus* PrintCustomerStatus::clone() const {
 string PrintCustomerStatus:: toString() const{
     string s1="CustomerStatus "+customerId;
     if(getStatus()==ActionStatus::COMPLETED){
-        s1+=" Completed";
+        s1+=" COMPLETED";
     }
     else{
-        s1+=" Error";
+        s1+=" ERROR";
     }
     return s1;
 }
@@ -218,12 +218,12 @@ PrintVolunteerStatus* PrintVolunteerStatus::clone() const {
     return new PrintVolunteerStatus(*this);
 }
 string PrintVolunteerStatus:: toString() const{
-    string s1="volunteerStatus "+ volunteerId;
+    string s1="volunteerStatus "+ std::to_string(volunteerId);
     if(getStatus()==ActionStatus::COMPLETED){
-        s1+=" Completed";
+        s1+=" COMPLETED";
     }
     else{
-        s1+=" Error";
+        s1+=" ERROR";
     }
     return s1;
 }
@@ -247,10 +247,10 @@ PrintOrderStatus* PrintOrderStatus::clone() const {
 string PrintOrderStatus:: toString() const{
     string s1="orderStatus "+ orderId;
     if(getStatus()==ActionStatus::COMPLETED){
-        s1+=" Completed";
+        s1+=" COMPLETED";
     }
     else{
-        s1+=" Error";
+        s1+=" ERROR";
     }
     return s1;
 }
@@ -269,7 +269,7 @@ PrintActionsLog* PrintActionsLog::clone() const {
     return new PrintActionsLog(*this);
 }
 string PrintActionsLog:: toString() const{
-    return "Log Completed ";
+    return "log COMPLETED ";
 }
 
 //BackupWareHouse
@@ -289,7 +289,7 @@ BackupWareHouse* BackupWareHouse::clone() const {
     return new BackupWareHouse(*this);
 }
 string BackupWareHouse:: toString() const{
-    return "Backup: Completed";
+    return "Backup COMPLETED";
 }
 
 //restore wareHouse
@@ -312,5 +312,5 @@ RestoreWareHouse* RestoreWareHouse::clone() const {
 }
 
 string RestoreWareHouse:: toString() const{
-    return "Restore: Completed";
+    return "Restore COMPLETED";
 }
