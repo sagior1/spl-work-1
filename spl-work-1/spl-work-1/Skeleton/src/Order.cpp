@@ -81,10 +81,20 @@ string const Order:: toString() const{
     }
 
     string orderStatus = "OrderID: " + to_string(id) + "\n" +
-                        "OrderStatus: " + OrderStat + 
-                        "\nCustomerID: " + to_string(customerId) +
-                        "\nCollector: " + to_string(collectorId) +
-                        "\nDriver: " + to_string(driverId);
+                        "OrderStatus: " + OrderStat +"\nCustomerID: " + to_string(customerId)+ "\nCollector: ";
+    if(getCollectorId()==NO_VOLUNTEER){
+        orderStatus+="None";
+    }
+    else{
+        orderStatus+=to_string(getCollectorId());
+    }
+    orderStatus+="\nDriver: " ;
+    if(getDriverId()==NO_VOLUNTEER){
+        orderStatus+="None";
+    }
+    else{
+        orderStatus+=to_string(getDriverId());
+    }
     return orderStatus;
 }
 
