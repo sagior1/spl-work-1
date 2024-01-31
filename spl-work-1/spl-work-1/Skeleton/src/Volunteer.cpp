@@ -1,7 +1,18 @@
-#include "../include/Volunteer.h"
 #include <string>
 #include <vector>
+#include "../include/Order.h"
+#include "../include/Customer.h"
+#include "../include/WareHouse.h"
+#include "../include/Action.h"
+#include "../include/Volunteer.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
+#include<iterator> 
+#include<vector> 
+using namespace std;
+
 
 //constructor
 Volunteer::Volunteer(int id1, const string &name1) 
@@ -68,7 +79,7 @@ bool CollectorVolunteer::hasOrdersLeft() const{
     return true;
 }
 bool CollectorVolunteer:: canTakeOrder(const Order &order1) const{//here i put if the order is in collecting phase for the volunteer to be able to take it
-    if(order1.getStatus()==OrderStatus::COLLECTING&&!isBusy()){
+    if(order1.getStatus()==OrderStatus::PENDING&&!isBusy()){
         return true;
     }
     else{
@@ -178,7 +189,7 @@ void DriverVolunteer:: acceptOrder(const Order &order){
 }
 //add step here
 string DriverVolunteer:: toString() const{
-    string s1= "name: " + getName() + "\n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(isBusy())+ "\n orderID: ";
+    string s1= "\n name: " + getName() + "\n volunteerID: " + std::to_string(getId()) + "\n isBusy: " + std::to_string(isBusy())+ "\n orderID: ";
     if(isBusy()){
         s1+=activeOrderId;
     }
