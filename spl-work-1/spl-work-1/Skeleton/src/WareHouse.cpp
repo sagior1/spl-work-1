@@ -19,6 +19,7 @@ WareHouse::WareHouse(const string &configFilePath){
     volunteerCounter=0;
     ordersCounter=0;
    FileTOCode(configFilePath); 
+   start();
 }
 
 WareHouse::~WareHouse() {
@@ -94,7 +95,7 @@ WareHouse& WareHouse::operator=(const WareHouse& other) {
         customerCounter = other.customerCounter;
         volunteerCounter = other.volunteerCounter;
         ordersCounter=other.ordersCounter;
-    }
+    
     return *this;
 }
 
