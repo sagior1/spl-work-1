@@ -16,16 +16,17 @@ enum class CustomerType{
 
 class BaseAction{
     public:
-        BaseAction();
-        ActionStatus getStatus() const;
+        BaseAction();//done
+        ActionStatus getStatus() const;//done
         virtual void act(WareHouse& wareHouse)=0;
         virtual string toString() const=0;
         virtual BaseAction* clone() const=0;
+        virtual ~BaseAction() = default;
 
     protected:
-        void complete();
-        void error(string errorMsg);
-        string getErrorMsg() const;
+        void complete();//done
+        void error(string errorMsg);//done
+        string getErrorMsg() const;//done
 
     private:
         string errorMsg;
@@ -44,7 +45,7 @@ class SimulateStep : public BaseAction {
         const int numOfSteps;
 };
 
-class AddOrder : public BaseAction {
+class AddOrder : public BaseAction {//rotem
     public:
         AddOrder(int id);
         void act(WareHouse &wareHouse) override;
@@ -55,7 +56,7 @@ class AddOrder : public BaseAction {
 };
 
 
-class AddCustomer : public BaseAction {
+class AddCustomer : public BaseAction {//done
     public:
         AddCustomer(string customerName, string customerType, int distance, int maxOrders);
         void act(WareHouse &wareHouse) override;
@@ -70,7 +71,7 @@ class AddCustomer : public BaseAction {
 
 
 
-class PrintOrderStatus : public BaseAction {
+class PrintOrderStatus : public BaseAction {//done
     public:
         PrintOrderStatus(int id);
         void act(WareHouse &wareHouse) override;
@@ -80,7 +81,7 @@ class PrintOrderStatus : public BaseAction {
         const int orderId;
 };
 
-class PrintCustomerStatus: public BaseAction {
+class PrintCustomerStatus: public BaseAction {//rotem
     public:
         PrintCustomerStatus(int customerId);
         void act(WareHouse &wareHouse) override;
@@ -91,7 +92,7 @@ class PrintCustomerStatus: public BaseAction {
 };
 
 
-class PrintVolunteerStatus : public BaseAction {
+class PrintVolunteerStatus : public BaseAction {//done
     public:
         PrintVolunteerStatus(int id);
         void act(WareHouse &wareHouse) override;
@@ -102,7 +103,7 @@ class PrintVolunteerStatus : public BaseAction {
 };
 
 
-class PrintActionsLog : public BaseAction {
+class PrintActionsLog : public BaseAction {//done
     public:
         PrintActionsLog();
         void act(WareHouse &wareHouse) override;
@@ -111,7 +112,7 @@ class PrintActionsLog : public BaseAction {
     private:
 };
 
-class Close : public BaseAction {
+class Close : public BaseAction {//rotem
     public:
         Close();
         void act(WareHouse &wareHouse) override;
@@ -120,7 +121,7 @@ class Close : public BaseAction {
     private:
 };
 
-class BackupWareHouse : public BaseAction {
+class BackupWareHouse : public BaseAction {//done
     public:
         BackupWareHouse();
         void act(WareHouse &wareHouse) override;
@@ -130,7 +131,7 @@ class BackupWareHouse : public BaseAction {
 };
 
 
-class RestoreWareHouse : public BaseAction {
+class RestoreWareHouse : public BaseAction {//rotem
     public:
         RestoreWareHouse();
         void act(WareHouse &wareHouse) override;
