@@ -166,7 +166,7 @@ void WareHouse:: start(){
     while (isOpen){
         cout << "\n Insert your next command:" << endl;
         string input;
-        cin >> input;
+        getline(cin, input);  // Read the entire line of input
         std::istringstream input2(input);
         input2 >> command >> num;
         if (command == "order"){
@@ -182,20 +182,20 @@ void WareHouse:: start(){
             s1.act(*this);
         }
         else if (command == "volunteerStatus"){
-            SimulateStep v1(num);
+            PrintVolunteerStatus v1(num);
             v1.act(*this);
         }
         else if (command == "customerStatus"){
-            SimulateStep c1(num);
+            PrintCustomerStatus c1(num);
             c1.act(*this);
         }
         else if (command == "log"){
-            SimulateStep c1(num);
-            c1.act(*this);
+            PrintActionsLog cl1;
+            cl1.act(*this);
         }  
         else if (command == "close"){
-            SimulateStep clo1(num);
-            clo1.act(*this);
+            Close cl1;
+            cl1.act(*this);
         }                
     }
  }
@@ -235,11 +235,11 @@ void WareHouse:: deleteVolunteer(int vID){
 Customer &WareHouse:: getCustomer(int cID) const{//maybe need here another return if we dont find the customer
     static CivilianCustomer invalidCustomer(-1, "Invalid", 0, 0); // Represents an invalid customer
     for (auto *customer : customers) {
-        cout<<"searching customer.. "+ customer->getName() + " searching for id: "+ std::to_string(customer->getId());
         if (customer->getId() == cID) {
             return *customer;
         }
     }
+
     return invalidCustomer; // Return the invalid customer if no match is found
 }//need to check if this hirtut is good
 
