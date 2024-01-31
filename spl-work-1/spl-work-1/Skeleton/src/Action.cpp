@@ -71,7 +71,7 @@ SimulateStep *SimulateStep::clone() const {
 }
 
 string SimulateStep::toString() const{
-    string output = std::to_string(numOfSteps) + "actions completed";
+    string output = std::to_string(numOfSteps) + " steps completed";
     return output;
 }
 
@@ -89,7 +89,7 @@ void AddOrder::act(WareHouse &wareHouse){
         complete();
     }
     else {
-        error("There is no customer with customerID=" + to_string(customerId));
+        error("Cannot place this order");
         cout<<this->toString();
     } 
     wareHouse.addAction(this);
@@ -143,7 +143,6 @@ string AddCustomer::toString() const{
 PrintCustomerStatus:: PrintCustomerStatus(int cID):customerId(cID){}
 
 void PrintCustomerStatus::act(WareHouse &wareHouse) {
-        cout<<"\n entered printCustomerStatus in Action.cpp ";
         Customer *currentCustomer = &wareHouse.getCustomer(customerId);
         if(currentCustomer->getId()==-1){
             error("Customer Doesn't exist");
@@ -179,15 +178,15 @@ PrintCustomerStatus* PrintCustomerStatus::clone() const {
     return new PrintCustomerStatus(*this);
 }
 string PrintCustomerStatus:: toString() const{
-    string s1="";
+    string s1="PrintCustomerStatus ";
     if(getStatus()==ActionStatus::COMPLETED){
-        s1+="status: Completed";
+        s1+=" status: Completed ";
     }
     else{
-        s1+="status: Error \n";
+        s1+=" status: Error \n";
         s1+= getErrorMsg()+"\n";
     }
-    s1+= "customerID: "+ std::to_string(customerId) + "\n";
+    s1+= " customerID: "+ std::to_string(customerId);
     return s1;
 }
 
@@ -212,7 +211,7 @@ PrintVolunteerStatus* PrintVolunteerStatus::clone() const {
     return new PrintVolunteerStatus(*this);
 }
 string PrintVolunteerStatus:: toString() const{
-    string s1="";
+    string s1="PrintVolunteerStatus ";
     if(getStatus()==ActionStatus::COMPLETED){
         s1+="status: Completed";
     }
@@ -221,7 +220,7 @@ string PrintVolunteerStatus:: toString() const{
         s1+= getErrorMsg()+"\n";
     }
     s1+="\n" ;
-    s1+= "VolunteerID: "+ std::to_string(volunteerId) + "\n";
+    s1+= " VolunteerID: "+ std::to_string(volunteerId) + "\n";
     return s1;
 }
 //PrintOrderStatus
@@ -269,15 +268,14 @@ PrintOrderStatus* PrintOrderStatus::clone() const {
     return new PrintOrderStatus(*this);
 }
 string PrintOrderStatus:: toString() const{
-    string s1=" PrintOrderStatus ";
+    string s1="PrintOrderStatus ";
     if(getStatus()==ActionStatus::COMPLETED){
-        s1+="status: Completed ";
+        s1+="status: Completed";
     }
     else{
-        s1+="status: Error \n";
-        s1+= getErrorMsg()+"\n";
+        s1+="status: Error ";
+        s1+= getErrorMsg();
     }
-    s1+="\n" ;
     s1+= " OrderID: "+ std::to_string(orderId) + "\n";
     return s1;
 }
