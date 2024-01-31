@@ -37,11 +37,8 @@ Close::Close(){}
 void Close ::act(WareHouse &wareHouse){
     wareHouse.printAllOrders();
     wareHouse.close();
-    wareHouse.~WareHouse(); 
-    delete backup;
-    complete();
-    wareHouse.addAction(this);
-    
+    //delete &wareHouse;
+    //delete backup;    
 }
 
 
@@ -80,23 +77,35 @@ AddOrder::AddOrder(const int customerId) : customerId(customerId){}
 
 void AddOrder::act(WareHouse &wareHouse){
     Customer &customer1 = (wareHouse.getCustomer(customerId));
-    int customer_distance = customer1.getCustomerDistance();
-    Order *order1 =new Order(wareHouse.getOrderCounter(), customerId, customer_distance);
-    if(customer1.canMakeOrder()){
-        cout<<"\n inside AddOrder in action.cpp the customer could make order and we are checking if he can add it \n";
-        customer1.addOrder(order1->getId());
-        wareHouse.addOrder(order1);
-        complete();
-    }
-    else {
+    if(customer1.getId()==-1){
         error("Cannot place this order");
         cout<<this->toString();
+    }
+    else{
+        int customer_distance = customer1.getCustomerDistance();
+        Order *order1 =new Order(wareHouse.getOrderCounter(), customerId, customer_distance);
+        if(customer1.canMakeOrder()){
+            customer1.addOrder(order1->getId());
+            wareHouse.addOrder(order1);
+            complete();
+        }
+        else {
+            error("Cannot place this order");
+            cout<<this->toString();
+        }
     } 
     wareHouse.addAction(this);
 } 
 
 string AddOrder:: toString() const{
-    return "AddOrder: Completed";
+    string s1= "\n " ;
+    if(getStatus() == ActionStatus::COMPLETED){
+        s1+="Completed";
+    }
+    else{
+        s1+="Error: Cannot make this order";
+    }
+    return s1;
 }
 
 AddOrder *AddOrder::clone() const {
