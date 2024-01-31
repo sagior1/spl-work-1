@@ -242,34 +242,7 @@ void PrintOrderStatus::act(WareHouse &wareHouse){
     }
     else{
         complete();
-        cout<<"orderID:"+std::to_string(orderId)+"\n";
-                
-        if(o1.getStatus()==OrderStatus::PENDING){
-                cout<<"OrderStatus: Pending";
-        }
-        if(o1.getStatus()==OrderStatus::COMPLETED){
-            cout<<"OrderStatus: Completed";
-        }
-        if(o1.getStatus()==OrderStatus::DELIVERING){
-            cout<<"OrderStatus: Delivering";
-       }
-        if(o1.getStatus()==OrderStatus::COLLECTING){
-            cout<<"OrderStatus: Collecting";
-        }
-        cout<< "\n";
-        cout<<" CustomerId: "+std::to_string(o1.getCustomerId());
-        if(o1.getCollectorId()==-1){
-            cout<<" CollectorID: None ";
-        }
-        else{
-            cout<<" CollectorID: "+std::to_string(o1.getCollectorId());
-        }
-        if(o1.getDriverId()==-1){
-            cout<<" DriverID: None ";
-        }
-        else{
-            cout<<" DriverID: "+std::to_string(o1.getDriverId());
-        }
+        cout<<"\n"<<o1.toString();
     }
     wareHouse.addAction(this);
 }
