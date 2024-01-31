@@ -309,3 +309,24 @@ BackupWareHouse* BackupWareHouse::clone() const {
 string BackupWareHouse:: toString() const{
     return "Backup: Completed";
 }
+
+//restore wareHouse
+RestoreWareHouse::RestoreWareHouse(){}
+
+void RestoreWareHouse::act(WareHouse &wareHouse){
+    if(backup == nullptr){
+        error("No backup available");
+        cout<<this->toString();
+    }
+    else {
+        wareHouse=WareHouse(*backup);
+    }
+}
+
+RestoreWareHouse* RestoreWareHouse::clone() const {
+    return new RestoreWareHouse(*this);
+}
+
+string RestoreWareHouse:: toString() const{
+    return "Restore: Completed";
+}
