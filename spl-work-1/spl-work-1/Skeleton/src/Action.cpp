@@ -187,7 +187,7 @@ PrintCustomerStatus* PrintCustomerStatus::clone() const {
     return new PrintCustomerStatus(*this);
 }
 string PrintCustomerStatus:: toString() const{
-    string s1="CustomerStatus "+customerId;
+    string s1="CustomerStatus "+std::to_string(customerId);
     if(getStatus()==ActionStatus::COMPLETED){
         s1+=" COMPLETED";
     }
@@ -245,7 +245,7 @@ PrintOrderStatus* PrintOrderStatus::clone() const {
     return new PrintOrderStatus(*this);
 }
 string PrintOrderStatus:: toString() const{
-    string s1="orderStatus "+ orderId;
+    string s1="orderStatus "+ std::to_string(orderId);
     if(getStatus()==ActionStatus::COMPLETED){
         s1+=" COMPLETED";
     }
