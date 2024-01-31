@@ -31,12 +31,11 @@ class WareHouse {
         int getVolunteerCounter() const;
         void step();
         void pendingOrdersStep();//done
-        void step2();
         void isExist();
         void FileTOCode(string configFilePath);
         bool isExist(string line, string toFind);
 
-        void moveBetweenVectors(vector<Order*> vectorToDelete, vector<Order*> vectorToInsert, Order order1);
+        void moveBetweenVectors(vector<Order*>& vectorToDelete, vector<Order*>& vectorToInsert, Order& order1);
         void deleteSpecificVolenteer(Volunteer* volToDelete );
         void processOrdersStep(); //delete step2()
         int getOrderCounter() const;
