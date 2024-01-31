@@ -14,10 +14,16 @@
 using namespace std;
 
 //constructor
-WareHouse::WareHouse(const string &configFilePath){
-    customerCounter=0;
-    volunteerCounter=0;
-    ordersCounter=0;
+WareHouse::WareHouse(const string &configFilePath): isOpen(false), // or whatever default value it should have
+      actionsLog(),
+      volunteers(),
+      pendingOrders(),
+      inProcessOrders(),
+      completedOrders(), 
+      customers(),
+      customerCounter(0),
+      volunteerCounter(0),
+      ordersCounter(0){
    FileTOCode(configFilePath); 
    start();
 }
@@ -103,8 +109,16 @@ WareHouse& WareHouse::operator=(const WareHouse& other) {
 // Copy constructor
 WareHouse::WareHouse(const WareHouse& other) 
     : isOpen(other.isOpen), 
+      actionsLog(),
+      volunteers(),
+      pendingOrders(),
+      inProcessOrders(),
+      completedOrders(),
+      customers(), 
       customerCounter(other.customerCounter), 
-      volunteerCounter(other.volunteerCounter),ordersCounter(other.ordersCounter) {
+      volunteerCounter(other.volunteerCounter),
+      ordersCounter(other.ordersCounter)
+{
     // Deep copy each vector
     for(auto *action : other.actionsLog)
         actionsLog.push_back(action->clone());
@@ -119,6 +133,7 @@ WareHouse::WareHouse(const WareHouse& other)
     for(auto *customer : other.customers)
         customers.push_back(customer->clone());
 }
+
 // Move constructor
 WareHouse::WareHouse(WareHouse&& other) noexcept
     : isOpen(std::move(other.isOpen)),
@@ -230,7 +245,6 @@ void WareHouse:: addAction(BaseAction* a1){
 void WareHouse:: addCustomer(Customer* newCustomer){
     customers.push_back(newCustomer);
     customerCounter ++;
-    cout<<newCustomer->getName();
 }
 
 void WareHouse:: addVolunteer(Volunteer* newVolunteer){
@@ -353,7 +367,6 @@ void WareHouse::FileTOCode(string configFilePath){
     string line;
     fstream MYfile;
     //here you insert the file path
-    //***TODO***  - check how todo it by name
     MYfile.open(configFilePath, ios::in);
     //initial all the relevant data types.
     string customer, volunteer, name, cType, vType;
@@ -378,44 +391,36 @@ void WareHouse::FileTOCode(string configFilePath){
              checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
              SoldierCustomer* SoliderCustomer1 = new SoldierCustomer(getcustomerCounter(),name, customer_distance, max_orders);
              addCustomer(SoliderCustomer1);
-             //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
         }
         if (isExist(line2, "customer")){
              std::istringstream checked_line(line2);
              checked_line >> customer >> name >> cType >> customer_distance >> max_orders;
              CivilianCustomer* CivilianCustomer1 = new CivilianCustomer(getcustomerCounter(), name, customer_distance, max_orders);
              addCustomer(CivilianCustomer1);
-             //cout << customer << ", " << name << ", " << cType << ", " << customer_distance << ", " << max_orders << endl;
         }
         else if (isExist(line2, "limited_collector")){
-            cout<<"\n" <<volunteerCounter<< ", "<< "limited_collector" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_coolDown >> max_orders;
             LimitedCollectorVolunteer* LimitedCollectorVolunteer1 = new LimitedCollectorVolunteer(volunteerCounter ,name, volunteer_coolDown ,max_orders);
             addVolunteer(LimitedCollectorVolunteer1);
-            cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << ", " << max_orders << endl;
         }
         else if (isExist(line2, "collector")){
-            cout <<volunteerCounter<< ", "<< "collector" << endl;
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_coolDown;
             CollectorVolunteer* CollectorVolunteer1 = new CollectorVolunteer(volunteerCounter, name, volunteer_coolDown);
             addVolunteer(CollectorVolunteer1);
-            cout <<"\n"<< volunteer << ", " << name << ", " << vType << ", " << volunteer_coolDown << endl;
         }
         else if (isExist(line2, "limited_driver")){
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_maxDistance >> distance_per_step >> max_orders;
             LimitedDriverVolunteer* LimitedDriverVolunteer1= new LimitedDriverVolunteer(volunteerCounter, name, volunteer_maxDistance, distance_per_step, max_orders);
             addVolunteer(LimitedDriverVolunteer1);
-            //cout << volunteer << ", " << name << ", " << vType << ", " << volunteer_maxDistance << ", " << distance_per_step << ", " << max_orders << endl;
         }
         else if (isExist(line2, "driver")){
             std::istringstream checked_line(line2);
             checked_line >> volunteer >> name >> vType >> volunteer_maxDistance >> distance_per_step;
             DriverVolunteer* DriverVolunteer1 = new DriverVolunteer(volunteerCounter, name, volunteer_maxDistance, distance_per_step);
             addVolunteer(DriverVolunteer1);
-            // << volunteer << ", " << name << ", " << vType << ", " << volunteer_maxDistance << ", " << distance_per_step << endl;
         }
     }
     
