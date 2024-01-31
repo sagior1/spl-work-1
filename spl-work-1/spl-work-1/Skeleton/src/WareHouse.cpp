@@ -10,7 +10,7 @@
 #include <sstream>
 #include <string>
 #include<iterator> 
-#include<vector> 
+#include<vector>
 using namespace std;
 
 //constructor
@@ -21,24 +21,20 @@ WareHouse::WareHouse(const string &configFilePath){
    FileTOCode(configFilePath); 
 }
 
-//Destructor
 WareHouse::~WareHouse() {
-    // Delete all dynamically allocated Customers
     for (Customer* customer : customers) {
         delete customer;
     }
     customers.clear();
-    // Delete all dynamically allocated Volunteers
     for (Volunteer* volunteer : volunteers) {
         delete volunteer;
     }
     volunteers.clear();
-    // Delete all dynamically allocated Orders
     for (Order* order : pendingOrders) {
         delete order;
     }
     pendingOrders.clear();
-        for (Order* order : inProcessOrders) {
+    for (Order* order : inProcessOrders) {
         delete order;
     }
     inProcessOrders.clear();
@@ -46,39 +42,59 @@ WareHouse::~WareHouse() {
         delete order;
     }
     completedOrders.clear();
+    for (BaseAction* action : actionsLog) {
+        delete action;
+    }
+    actionsLog.clear();
 }
-
-//Copy assignment operator
+// Copy assignment operator
 WareHouse& WareHouse::operator=(const WareHouse& other) {
-    if (this != &other) { // protect against invalid self-assignment
-        // 1: deallocate memory that 'this' used to hold
-        for(auto &action : actionsLog)
-            delete action;
-        for(auto &volunteer : volunteers)
-            delete volunteer;
-        for(auto &order : pendingOrders)
-            delete order;
-        for(auto &order : inProcessOrders)
-            delete order;
-        for(auto &order : completedOrders)
-            delete order;
-        for(auto &customer : customers)
-            delete customer;
+    for (Customer* customer : customers) {
+        delete customer;
+    }
+    customers.clear();
+    for (Volunteer* volunteer : volunteers) {
+        delete volunteer;
+    }
+    volunteers.clear();
+    for (Order* order : pendingOrders) {
+        delete order;
+    }
+    pendingOrders.clear();
+    for (Order* order : inProcessOrders) {
+        delete order;
+    }
+    inProcessOrders.clear();
+        for (Order* order : completedOrders) {
+        delete order;
+    }
+    completedOrders.clear();
+    for (BaseAction* action : actionsLog) {
+        delete action;
+    }
+    actionsLog.clear();
+
 
         // 2: allocate new memory and copy the elements
-        actionsLog = other.actionsLog;
-        volunteers = other.volunteers;
-        pendingOrders = other.pendingOrders;
-        inProcessOrders = other.inProcessOrders;
-        completedOrders = other.completedOrders;
-        customers = other.customers;
+        for(auto *action : other.actionsLog)
+            actionsLog.push_back(action->clone());
+        for(auto *volunteer : other.volunteers)
+            volunteers.push_back(volunteer->clone());
+        for(auto *order : other.pendingOrders)
+            pendingOrders.push_back(order->clone());
+        for(auto *order : other.inProcessOrders)
+            inProcessOrders.push_back(order->clone());
+        for(auto *order : other.completedOrders)
+            completedOrders.push_back(order->clone());
+        for(auto *customer : other.customers)
+            customers.push_back(customer->clone());
 
         // 3: assign the other members
         isOpen = other.isOpen;
         customerCounter = other.customerCounter;
         volunteerCounter = other.volunteerCounter;
+        ordersCounter=other.ordersCounter;
     }
-    // by convention, always return *this
     return *this;
 }
 
@@ -87,18 +103,18 @@ WareHouse& WareHouse::operator=(const WareHouse& other) {
 WareHouse::WareHouse(const WareHouse& other) 
     : isOpen(other.isOpen), 
       customerCounter(other.customerCounter), 
-      volunteerCounter(other.volunteerCounter) {
+      volunteerCounter(other.volunteerCounter),ordersCounter(other.ordersCounter) {
     // Deep copy each vector
-    for(BaseAction *action : other.actionsLog)
+    for(auto *action : other.actionsLog)
         actionsLog.push_back(action->clone());
     for(auto *volunteer : other.volunteers)
         volunteers.push_back(volunteer->clone());
     for(auto *order : other.pendingOrders)
-        pendingOrders.push_back(new Order(*order));
+        pendingOrders.push_back(order->clone());
     for(auto *order : other.inProcessOrders)
-        inProcessOrders.push_back(new Order(*order));
+        inProcessOrders.push_back(order->clone());
     for(auto *order : other.completedOrders)
-        completedOrders.push_back(new Order(*order));
+        completedOrders.push_back(order->clone());
     for(auto *customer : other.customers)
         customers.push_back(customer->clone());
 }
@@ -111,16 +127,9 @@ WareHouse::WareHouse(WareHouse&& other) noexcept
       inProcessOrders(std::move(other.inProcessOrders)),
       completedOrders(std::move(other.completedOrders)),
       customers(std::move(other.customers)),
-      customerCounter(std::move(other.customerCounter)),
-      volunteerCounter(std::move(other.volunteerCounter)),
-      ordersCounter(std::move(other.ordersCounter)) {
-    // Invalidate the data in the source object so it won't be used again
-    other.actionsLog.clear();
-    other.volunteers.clear();
-    other.pendingOrders.clear();
-    other.inProcessOrders.clear();
-    other.completedOrders.clear();
-    other.customers.clear();
+      customerCounter(other.customerCounter),
+      volunteerCounter(other.volunteerCounter),
+      ordersCounter(other.ordersCounter) {
 }
 
 // Move assignment operator
@@ -170,49 +179,50 @@ void WareHouse:: start(){
         std::istringstream input2(input);
         input2 >> command >> num;
         if (command == "order"){
-            AddOrder o1(num);
-            o1.act(*this);
+            AddOrder *o1= new AddOrder(num);
+            o1->act(*this);
         }
         else if (command == "orderStatus"){
-            PrintOrderStatus p1(num);
-            p1.act(*this);
+            PrintOrderStatus *p1=new PrintOrderStatus(num);
+            p1->act(*this);
         }
         else if (command == "step"){
-            SimulateStep s1(num);
-            s1.act(*this);
+            SimulateStep *s1=new SimulateStep(num);
+            s1->act(*this);
         }
         else if (command == "volunteerStatus"){
-            PrintVolunteerStatus v1(num);
-            v1.act(*this);
+            PrintVolunteerStatus *v1= new PrintVolunteerStatus(num);
+            v1->act(*this);
         }
         else if (command == "customerStatus"){
-            PrintCustomerStatus c1(num);
-            c1.act(*this);
+            PrintCustomerStatus *c1=new PrintCustomerStatus(num);
+            c1->act(*this);
         }
         else if (command == "log"){
-            PrintActionsLog cl1;
-            cl1.act(*this);
+            PrintActionsLog *cl1= new PrintActionsLog();
+            cl1->act(*this);
         }  
         else if (command == "close"){
-            Close cl1;
-            cl1.act(*this);
+            Close *cl1= new Close();
+            cl1->act(*this);
         }
         else if (command == "backup"){
-            BackupWareHouse bu1;
-            bu1.act(*this);
+            BackupWareHouse *bu1= new BackupWareHouse();
+            bu1->act(*this);
         }
         else if (command == "restore"){
-            RestoreWareHouse res1;
-            res1.act(*this);
-        }                 
+            RestoreWareHouse *res1= new RestoreWareHouse();
+            res1->act(*this);
+        }    
+
     }
  }
 void WareHouse::addOrder(Order* order){
     pendingOrders.push_back(order);
     ordersCounter++;
 }
-void WareHouse:: addAction(BaseAction* action){
-    actionsLog.push_back(action);
+void WareHouse:: addAction(BaseAction* a1){
+    actionsLog.push_back(a1);
 }
 
 //adding a new customer to WareHouse
@@ -487,5 +497,10 @@ void WareHouse::printAllOrders(){
     for(auto *currcompletedOrder : completedOrders){
         string orderDitails3 ="Order Id: "+ to_string(currcompletedOrder->getId()) + ", "+ to_string(currcompletedOrder->getCustomerId()) + ", " + currcompletedOrder->orderStatusToString(currcompletedOrder->getStatus());
         cout << orderDitails3 << endl;
+    }
+}
+void WareHouse::printAllActions(){
+        for(auto *action : actionsLog){
+        cout << action->toString() << endl;
     }
 }
