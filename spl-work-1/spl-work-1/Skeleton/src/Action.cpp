@@ -122,7 +122,7 @@ AddCustomer::AddCustomer(string customerName1, string customerType1, int distanc
 void AddCustomer::act(WareHouse &wareHouse) {
     int idnew = wareHouse.getcustomerCounter();
     Customer* newCustomer;
-    if(customerType==customerType::Soldier)
+    if(customerType==CustomerType::Soldier)
         newCustomer = new SoldierCustomer(idnew, customerName, distance, maxOrders);
     else
         newCustomer = new CivilianCustomer(idnew, customerName, distance, maxOrders);
