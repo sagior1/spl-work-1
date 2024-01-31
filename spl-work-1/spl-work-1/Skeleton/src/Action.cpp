@@ -120,9 +120,9 @@ AddCustomer::AddCustomer(string customerName1, string customerType1, int distanc
       distance(distance1), 
       maxOrders(maxOrders1) {}
 void AddCustomer::act(WareHouse &wareHouse) {
-    int idnew = wareHouse.getcustomerCounter() + 1;
+    int idnew = wareHouse.getcustomerCounter();
     Customer* newCustomer;
-    if((int)customerType==0)// i dont know if this is ok
+    if(customerType==customerType::Soldier)
         newCustomer = new SoldierCustomer(idnew, customerName, distance, maxOrders);
     else
         newCustomer = new CivilianCustomer(idnew, customerName, distance, maxOrders);
@@ -158,10 +158,12 @@ void PrintCustomerStatus::act(WareHouse &wareHouse) {
             cout<<"\n"<<getErrorMsg();
         }
         else{
+            cout<<"customer ID: "<<currentCustomer->getId();
             vector<int> orderIDS = currentCustomer->getOrdersIds();
             for(int orderID: orderIDS){
-                cout<<"\n orderId: "<< std::to_string(orderID);
-
+                
+                cout<<"\norderId: "<< std::to_string(orderID);
+                cout<<"\n";
                 Order o1=wareHouse.getOrder(orderID);
                 if(o1.getStatus()==OrderStatus::PENDING){
                     cout<<"OrderStatus: Pending";
