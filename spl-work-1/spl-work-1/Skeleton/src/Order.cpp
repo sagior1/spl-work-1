@@ -110,3 +110,6 @@ string Order::orderStatusToString(OrderStatus status) {
         else
             return "Unknown OrderStatus";
 }
+Order* Order::clone() const {
+    return new Order(*this);
+}
