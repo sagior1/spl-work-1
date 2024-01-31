@@ -82,9 +82,9 @@ string const Order:: toString() const{
 
     string orderStatus = "OrderID: " + to_string(id) + "\n" +
                         "OrderStatus: " + OrderStat + 
-                        "\n CustomerID: " + to_string(customerId) +
-                        "\n Collector: " + to_string(collectorId) +
-                        "\n Driver: " + to_string(driverId);
+                        "\nCustomerID: " + to_string(customerId) +
+                        "\nCollector: " + to_string(collectorId) +
+                        "\nDriver: " + to_string(driverId);
     return orderStatus;
 }
 
