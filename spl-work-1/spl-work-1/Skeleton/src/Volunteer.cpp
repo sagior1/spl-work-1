@@ -52,6 +52,7 @@ CollectorVolunteer::CollectorVolunteer(int id1, const string &name1, int coolDow
 void CollectorVolunteer::step() {
     timeLeft--; 
     if(timeLeft == 0){
+        completedOrderId=activeOrderId;//set completed order id
         activeOrderId = NO_ORDER;
     }
 }
