@@ -184,7 +184,8 @@ bool DriverVolunteer:: hasOrdersLeft() const{
     return true;
 }
 bool DriverVolunteer:: canTakeOrder(const Order &order) const{
-        if(order.getStatus()==OrderStatus::COLLECTING&&!isBusy()){
+        if(order.getStatus()==OrderStatus::COLLECTING&&!isBusy() &&
+        getMaxDistance() >= order.getDistance()){
             return true;
         }
         else
@@ -229,7 +230,8 @@ bool LimitedDriverVolunteer:: hasOrdersLeft() const{
     return (ordersLeft>0);
 }
 bool LimitedDriverVolunteer:: canTakeOrder(const Order &order) const{
-    if(hasOrdersLeft()&&order.getStatus()==OrderStatus::COLLECTING&&!isBusy()){
+    if(hasOrdersLeft()&&order.getStatus()==OrderStatus::COLLECTING&&!isBusy() &&
+    getMaxDistance() >= order.getDistance()){
         return true;
     }
     else return false;
@@ -254,4 +256,3 @@ string LimitedDriverVolunteer:: toString() const{
 
     return output;
 }
-
