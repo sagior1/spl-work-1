@@ -199,7 +199,6 @@ void WareHouse:: start(){
             string type, name;
             int num, maxOrders;
             input2 >> name >> type >> num >> maxOrders;
-            cout << name << ", " << type << ", " << to_string(num) << ", " << to_string(maxOrders) <<endl;
             AddCustomer *c1= new AddCustomer(name, type, num, maxOrders);
             c1->act(*this);
         }
