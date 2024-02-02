@@ -356,7 +356,6 @@ void WareHouse:: pendingOrdersStep(){
         for(Volunteer *currVol: volunteers){
             if(currVol->canTakeOrder(*currOrder)){
                 currVol->acceptOrder(*currOrder);
-                cout << "vol:" << to_string(currVol->getId()) << "\norder:" << to_string(currOrder->getId())<<endl;
                 
                 if(currOrder->getStatus()==OrderStatus::PENDING){
                     currOrder->setStatus(OrderStatus::COLLECTING);
@@ -448,14 +447,15 @@ void WareHouse::FileTOCode(string configFilePath){
 
 }
 
-void WareHouse::moveBetweenVectors(vector<Order*>& vectorToDeleteFrom, vector<Order*>& vectorToInsert, Order& order) {
+void WareHouse::moveBetweenVectors(vector<Order*>& sourceVector, vector<Order*>& destinationVector, Order& order) {
     auto iter = find(sourceVector.begin(), sourceVector.end(), &order);
 
-    if (iter != vectorToDeleteFrom.end()) {
-        vectorToInsert.push_back(*iter);
-        vectorToDeleteFrom.erase(iter);
+    if (iter != sourceVector.end()) {
+        destinationVector.push_back(*iter);
+        sourceVector.erase(iter);
     }
 }
+
 
 
 void WareHouse:: deleteSpecificVolenteer(Volunteer* volToDelete ){
