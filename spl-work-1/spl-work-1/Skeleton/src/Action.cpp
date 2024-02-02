@@ -139,12 +139,12 @@ string AddCustomer::toString() const{
     string s1;
     s1+="Customer " + customerName;
     if(customerType==CustomerType::Soldier){
-        s1+="Soldier ";
+        s1+=" Soldier ";
     }
     else{
         s1+="Civilian ";
     }
-    s1+=distance +" "+ maxOrders;
+    s1+=to_string(distance) +" "+ to_string(maxOrders);
     return s1;
 }
 
