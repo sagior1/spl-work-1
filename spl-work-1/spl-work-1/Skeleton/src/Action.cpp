@@ -83,13 +83,14 @@ void AddOrder::act(WareHouse &wareHouse){
     }
     else{
         int customer_distance = customer1.getCustomerDistance();
-        Order *order1 = new Order(wareHouse.getOrderCounter(), customerId, customer_distance);
         if(customer1.canMakeOrder()){
+            Order *order1 = new Order(wareHouse.getOrderCounter(), customerId, customer_distance);
             customer1.addOrder(order1->getId());
             wareHouse.addOrder(order1);
             complete();
         }
         else {
+
             error("Cannot place this order");
             cout<<getErrorMsg();
         }
