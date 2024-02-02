@@ -11,6 +11,7 @@
 #include <string>
 #include<iterator> 
 #include<vector>
+#include <algorithm>
 using namespace std;
 
 //constructor
@@ -355,11 +356,12 @@ void WareHouse:: pendingOrdersStep(){
         for(Volunteer *currVol: volunteers){
             if(currVol->canTakeOrder(*currOrder)){
                 currVol->acceptOrder(*currOrder);
+                cout << "vol:" << to_string(currVol->getId()) << "\norder:" << to_string(currOrder->getId())<<endl;
                 
                 if(currOrder->getStatus()==OrderStatus::PENDING){
                     currOrder->setStatus(OrderStatus::COLLECTING);
                     currOrder->setCollectorId(currVol->getId());
-                    moveBetweenVectors(pendingOrders,inProcessOrders,*currOrder);
+                    //moveBetweenVectors(pendingOrders,inProcessOrders,*currOrder);
                 }
                 else{
                     currOrder->setStatus(OrderStatus::DELIVERING);
@@ -446,21 +448,15 @@ void WareHouse::FileTOCode(string configFilePath){
 
 }
 
-//***NEW****
-void WareHouse::moveBetweenVectors(vector<Order*>& vectorToDelete, vector<Order*>& vectorToInsert, Order& order1){
-    Order* pOrder = &order1;
-    vectorToInsert.push_back(pOrder);
-    auto iter = vectorToDelete.begin();
-    while (iter != vectorToDelete.end()) {
-        if (*iter == pOrder) {
-            iter = vectorToDelete.erase(iter);
-            break;
-        } else {
-            ++iter;
-        }
-        
+void WareHouse::moveBetweenVectors(vector<Order*>& vectorToDeleteFrom, vector<Order*>& vectorToInsert, Order& order) {
+    auto iter = find(sourceVector.begin(), sourceVector.end(), &order);
+
+    if (iter != vectorToDeleteFrom.end()) {
+        vectorToInsert.push_back(*iter);
+        vectorToDeleteFrom.erase(iter);
     }
 }
+
 
 void WareHouse:: deleteSpecificVolenteer(Volunteer* volToDelete ){
     auto iter = volunteers.begin();
@@ -516,13 +512,13 @@ void WareHouse::printAllOrders(){
         cout << orderDitails1 << endl;
     }
     for(auto *currInProcessOrder : inProcessOrders){
-        string orderDitails2 ="Order Id: "+ to_string(currInProcessOrder->getId()) + ", "+
+        string orderDitails2 ="Order ID: "+ to_string(currInProcessOrder->getId()) + ", "+
                             "Customer ID: " + to_string(currInProcessOrder->getCustomerId()) + ", " +
                             "Status: " + currInProcessOrder->orderStatusToString(currInProcessOrder->getStatus());
         cout << orderDitails2 << endl;
     }
     for(auto *currcompletedOrder : completedOrders){
-        string orderDitails3 ="Order Id: "+ to_string(currcompletedOrder->getId()) + ", "+ 
+        string orderDitails3 ="Order ID: "+ to_string(currcompletedOrder->getId()) + ", "+ 
                             "Customer ID: " + to_string(currcompletedOrder->getCustomerId()) + ", " +
                             "Status: " + currcompletedOrder->orderStatusToString(currcompletedOrder->getStatus());
         cout << orderDitails3 << endl;
