@@ -510,15 +510,21 @@ void WareHouse::processOrdersStep() {
 
 void WareHouse::printAllOrders(){
     for(auto *currPendingOrder : pendingOrders){
-        string orderDitails1 ="Order Id: "+ to_string(currPendingOrder->getId()) + ", "+ to_string(currPendingOrder->getCustomerId()) + ", " + currPendingOrder->orderStatusToString(currPendingOrder->getStatus());
+        string orderDitails1 ="Order ID: "+ to_string(currPendingOrder->getId()) + ", "+
+                            "Customer ID: " + to_string(currPendingOrder->getCustomerId()) + ", " +
+                             "Status: " + currPendingOrder->orderStatusToString(currPendingOrder->getStatus());
         cout << orderDitails1 << endl;
     }
     for(auto *currInProcessOrder : inProcessOrders){
-        string orderDitails2 ="Order Id: "+ to_string(currInProcessOrder->getId()) + ", "+ to_string(currInProcessOrder->getCustomerId()) + ", " + currInProcessOrder->orderStatusToString(currInProcessOrder->getStatus());
+        string orderDitails2 ="Order Id: "+ to_string(currInProcessOrder->getId()) + ", "+
+                            "Customer ID: " + to_string(currInProcessOrder->getCustomerId()) + ", " +
+                            "Status: " + currInProcessOrder->orderStatusToString(currInProcessOrder->getStatus());
         cout << orderDitails2 << endl;
     }
     for(auto *currcompletedOrder : completedOrders){
-        string orderDitails3 ="Order Id: "+ to_string(currcompletedOrder->getId()) + ", "+ to_string(currcompletedOrder->getCustomerId()) + ", " + currcompletedOrder->orderStatusToString(currcompletedOrder->getStatus());
+        string orderDitails3 ="Order Id: "+ to_string(currcompletedOrder->getId()) + ", "+ 
+                            "Customer ID: " + to_string(currcompletedOrder->getCustomerId()) + ", " +
+                            "Status: " + currcompletedOrder->orderStatusToString(currcompletedOrder->getStatus());
         cout << orderDitails3 << endl;
     }
 }
