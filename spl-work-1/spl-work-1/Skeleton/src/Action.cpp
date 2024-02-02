@@ -266,7 +266,6 @@ void PrintActionsLog::act(WareHouse &wareHouse){
     
     complete();
     wareHouse.addAction(this);
-    cout<<"\n"<<toString();
 }
 PrintActionsLog* PrintActionsLog::clone() const {
     return new PrintActionsLog(*this);
